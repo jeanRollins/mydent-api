@@ -1,3 +1,4 @@
+const { generateToken } = require('../libs/Commons');
 const { pool } = require('../libs/database') ;
 const { encrypt , decrypt } = require('../libs/Encrypt') ;
 
@@ -23,9 +24,7 @@ const AddUser = async ( user ) => {
                     ( id , rut ,email , nombres, apellido_materno, apellido_paterno, token, password ) 
                      VALUES 
                     ( null , '${ user.rut }' , '${ user.email }', '${ user.nombres }',  '${ user.apellidoMaterno }' , '${ user.apellidoPaterno }' , '${ user.token }', '${ pass }' ) ` ;
-    console.log( query ) ;
-    //let result = await pool.query( query );
-    //return result.rows ;
+   
     return [] ;
 }
 
@@ -34,7 +33,7 @@ const auth = async ( rut , password )  =>  await validate( rut , password ) ;
 
 const validate = async ( rut , password ) => {
     
-    const userFounded = await GetUser( rut ) ;
+    let userFounded = await GetUser( rut ) ;
 
     if( userFounded.length == 0 ) return false ;
 
@@ -42,10 +41,26 @@ const validate = async ( rut , password ) => {
 
     if( passDecrypt != password ) return false ;
 
-    return true ;
+    const token = generateToken() ;
+
+    const responseUpdate = await UpdateField( 'usuarios', 'token' , token, 'string' ) ;
+
+    userFounded.token = token ;
+    return { isValidate : true , data : userFounded } ;
 }
+
+const UpdateField = async ( table, field , value , type = 'number' ) => {
+
+    const fieldValue = ( type == 'string' ) ? `'${ value }'` : value ;   
+    const query = `UPDATE ${ table } SET ${ field } = ${ fieldValue } ; `;
+    console.log('query****' , query);
+    const result = await pool.query( query ) ;
+    return result ;
+}
+
 module.exports = {
     GetUsers ,
     AddUser ,
+    UpdateField ,
     auth 
 }

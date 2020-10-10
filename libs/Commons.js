@@ -1,4 +1,4 @@
-const randomString =  stringlength  => {
+const generateString =  stringlength  => {
 	const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz" ;
     let   randomstring = '' ;
     
@@ -9,8 +9,7 @@ const randomString =  stringlength  => {
 	return randomstring;
 }
 
-
-const generateToken = () => 'APP_' + randomString( 50 ) ;
+const generateToken = () => 'TOKEN_' + generateString( 50 ) ;
 
 
 module.exports = {

@@ -1,14 +1,7 @@
 const { auth }    = require('../models/Users') ;
 const { encrypt } = require('../libs/Encrypt') ;
 
-const home = async ( req , res ) => {
-    
-    //console.log('req' , req);
-    //const  resp = await auth('181913878' , '123456') ;
-    //console.log( 'resp' , resp ) ;
-
-    res.send( {  saludo : 'hola!'} );
-};
+const home = ( req , res ) => res.send( { message : 'Welcome to api for service mydent app.' , version : '1.0' } ) ;
 
 const authorize = async ( req , res ) => {
     

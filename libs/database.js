@@ -3,7 +3,10 @@ require ('custom-env').env('staging') ;
 const util = require('util');
 
 const conn = mysql.createConnection({
-
+    host     : "alohaweb.tk",
+    user     : "alohaweb_dev",
+    password : "Holamundo159*" ,
+    database : 'alohaweb_mydent'
 });
 
 const query = util.promisify(conn.query).bind(conn);

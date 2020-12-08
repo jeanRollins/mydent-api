@@ -1,14 +1,18 @@
-const { Pool } = require('pg') ;
+const mysql = require('mysql') ;
 require ('custom-env').env('staging') ;
+const util = require('util');
 
-const connectionString =  'postgresql://' + process.env.DB_USER + ':' + process.env.DB_PASS + '@db-postgresql-nyc1-82536-do-user-7621662-0.a.db.ondigitalocean.com:25060/' + process.env.DB_NAME  + '?sslmode=require' ;
+const conn = mysql.createConnection({
 
+});
 
-const pool = new Pool ({
-    connectionString: connectionString,
-    ssl: { rejectUnauthorized: false }
-})
+const query = util.promisify(conn.query).bind(conn);
 
+const QueryExec =  async sql  => {
 
+    const result    =  await query( sql ) ;
+    const response  =  Object.values( JSON.parse( JSON.stringify( result ) ) ) ;
+    return response ;
+}
 
-module.exports = { pool } ;
+module.exports = { QueryExec } ;	

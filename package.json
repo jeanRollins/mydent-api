@@ -12,13 +12,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "cryptr": "^6.0.2",
     "custom-env": "^2.0.1",
     "express": "^4.17.1",
-    "pg": "^8.3.0" ,
-    "nodemon": "^2.0.4"
+    "mysql": "^2.18.1",
+    "pg": "^8.3.0"
   },
   "devDependencies": {
-   
+    "nodemon": "^2.0.6"
   }
 }

@@ -95,5 +95,6 @@ module.exports = {
     GetUsers ,
     AddUser ,
     UpdateField ,
-    auth 
+    auth ,
+    GetUser
 }

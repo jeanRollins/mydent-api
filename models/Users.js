@@ -2,31 +2,23 @@ const { generateToken } = require('../libs/Commons');
 const { QueryExec } = require('../libs/database') ;
 const { encrypt , decrypt } = require('../libs/Encrypt') ;
 
-/* 
-const GetUsers = async () => {
-
-    const sql = "SELECT * FROM usuarios" ;
-    const response = await QueryExec( sql ) ;
-
-    console.log('response*********************' , response );
-
-    return  response ;
-}
-*/
-
 
 const GetUsers = async () => {
-
-    console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRR');
     let result = await QueryExec(' SELECT * FROM usuarios ');
     return result ;
 }
 
 const GetUser = async ( rut ) => {
     const query = `SELECT * FROM usuarios WHERE rut = '${ rut }' ` ;
-    console.log( 'query: ' , query ) ;
     const result = await QueryExec( query ) ;
     return ( result.length > 0 ) ? result[0] : [] ;
+}
+
+const GetUserByField = async ( field , value ) => {
+    const query = `SELECT * FROM usuarios WHERE ${field} = '${ value }' ` ;
+    const result = await QueryExec( query ) ;
+
+    return ( result.length > 0 ) ? false : true ;
 }
 
 const AddUser = async ( user ) => {
@@ -34,9 +26,10 @@ const AddUser = async ( user ) => {
     const pass = encrypt( user.pass ) ;
 
     const query = `INSERT INTO usuarios 
-                    ( id , rut ,email , nombres, apellido_materno, apellido_paterno, token, password ) 
+                    ( id , rut, nombres, apellido_materno, apellido_paterno, email, token, ultimo_acceso, email_verificacion, password, fecha_nacimiento,status ) 
                      VALUES 
-                    ( null , '${ user.rut }' , '${ user.email }', '${ user.nombres }',  '${ user.apellidoMaterno }' , '${ user.apellidoPaterno }' , '${ user.token }', '${ pass }' ) ` ;
+                    ( null , '${ user.rut }' , '${ user.nombres }','${ user.apellidoMaterno }' , '${ user.apellidoPaterno }' , 
+                    '${ user.email }', '${ user.token }', '${ user.ultimoAcceso }', '${ password }' , '${ fechaNacimiento }' , '${ status }' ) ` ;
    
     return [] ;
 }
@@ -48,23 +41,13 @@ const validate = async ( rut , password ) => {
     
     let userFounded = await GetUser( rut ) ;
 
-    console.log('userFounded******************' , userFounded);
-
-    console.log('userFounded.length' , userFounded.length);
-
-    console.log('isArray' , Array.isArray( userFounded ) );
-
-    
 
     if( ( Array.isArray( userFounded ) ) ) return false ;
 
 
     if(   typeof userFounded == 'object' ){
 
-        console.log('userFounded.password ********' , userFounded.password );
         const passDecrypt = await decrypt( userFounded.password ) ;
-
-        console.log('passDecrypt ********' , passDecrypt );
 
         if( passDecrypt != password ) return false ;
     
@@ -74,7 +57,6 @@ const validate = async ( rut , password ) => {
     
         userFounded.token = token ;
         return { isValidate : true , data : userFounded } ;
-
     } 
     else {
         return false 
@@ -91,10 +73,24 @@ const UpdateField = async ( table, field , value , type = 'number' ) => {
     return result ;
 }
 
+const ValidateRut = async rut  => {
+
+    const response = await GetUserByField( 'rut' , rut ) ;
+    return response ;
+}
+
+const ValidateEmail = async email  => {
+
+    const response = await GetUserByField( 'email' , email ) ;
+    return response ;
+}
+
 module.exports = {
     GetUsers ,
     AddUser ,
     UpdateField ,
     auth ,
-    GetUser
+    GetUser ,
+    ValidateRut ,
+    ValidateEmail
 }

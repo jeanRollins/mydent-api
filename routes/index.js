@@ -2,8 +2,10 @@ const { Router } = require('express');
 
 const router = Router();
 
-const { home , authorize , validToken  }  = require('../controllers/LoginController') ;
+const { validateRutExist, validateEmailExist }  = require('../controllers/UsersController') ;
 const { GetSpecialtyData }  = require('../controllers/SpecialtyController') ;
+
+const { home , authorize , validToken  }  = require('../controllers/LoginController') ;
 
 const { index } = require('../controllers/AppController') ;
 
@@ -13,6 +15,11 @@ router.use( index ) ;
 router.get( '/' ,  home ) ;
 router.post( '/login/authorize' ,  authorize ) ;
 router.post( '/login/validToken' ,  validToken ) ;
+
+
+//UsersController
+router.post( '/user/ValidateRutExist' ,  validateRutExist ) ;
+router.post( '/user/ValidateEmailExist' ,  validateEmailExist ) ;
 
 
 

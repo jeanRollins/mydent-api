@@ -41,9 +41,11 @@ const auth = async ( rut , password )  =>  await validate( rut , password ) ;
 
 
 const validate = async ( rut , password ) => {
+    rut = rut.replace('-', '') ;
+    console.log('rut' , rut);
     
     let userFounded = await GetUser( rut ) ;
-
+    
 
     if( ( Array.isArray( userFounded ) ) ) return false ;
 
@@ -58,7 +60,9 @@ const validate = async ( rut , password ) => {
     
         const token = generateToken() ;
     
-        const responseUpdate = await UpdateField( 'token' , token, userFounded,id ,'string' ) ;
+        const responseUpdate = await UpdateField( 'token' , token, userFounded.id ,'string' ) ;
+        const responseUpdateAccess = await UpdateField( 'ultimo_acceso' , 'now()', userFounded.id  ) ;
+
     
         userFounded.token = token ;
         return { isValidate : true , data : userFounded } ;

@@ -1,4 +1,4 @@
-const { RuteAppMydent } = require('../libs/Commons');
+const { RuteAppMydent, generateMailVerification } = require('../libs/Commons');
 const { sendMailWelcome } = require('../libs/Mail');
 const { ValidateRut , ValidateEmail, AddUser, GetUser , UpdateField }   = require('../models/Users') ;
 
@@ -183,7 +183,12 @@ const VerifyMail = async ( req , res )  => {
         
         if( (typeof user === 'object') && ( user.id !== undefined ) ) {
 
+            const mailVerification = await generateMailVerification() ; 
+
             const responseUpdate = await  UpdateField( 'status' , 1 , user.id ) ;
+
+            const responseUpdateVerification = await  UpdateField( 'email_verificacion' , mailVerification , user.id , 'string') ;
+
 
             res.send( { 
                 action : true,

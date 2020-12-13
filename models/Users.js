@@ -1,4 +1,4 @@
-const { generateToken } = require('../libs/Commons');
+const { generateToken ,generateMailVerification } = require('../libs/Commons');
 const { QueryExec } = require('../libs/database') ;
 const { encrypt , decrypt } = require('../libs/Encrypt') ;
 
@@ -8,8 +8,9 @@ const GetUsers = async () => {
     return result ;
 }
 
-const GetUser = async ( rut ) => {
-    const query = `SELECT * FROM usuarios WHERE rut = '${ rut }' ` ;
+const GetUser = async ( value , field = 'rut' ) => {
+
+    const query = `SELECT * FROM usuarios WHERE ${field} = '${ value }' ` ;
     const result = await QueryExec( query ) ;
     return ( result.length > 0 ) ? result[0] : [] ;
 }
@@ -23,15 +24,17 @@ const GetUserByField = async ( field , value ) => {
 
 const AddUser = async ( user ) => {
 
-    const pass = encrypt( user.pass ) ;
+    const password = encrypt( user.password ) ;
+    const mailVerification = await generateMailVerification() ;
 
-    const query = `INSERT INTO usuarios 
-                    ( id , rut, nombres, apellido_materno, apellido_paterno, email, token, ultimo_acceso, email_verificacion, password, fecha_nacimiento,status ) 
-                     VALUES 
-                    ( null , '${ user.rut }' , '${ user.nombres }','${ user.apellidoMaterno }' , '${ user.apellidoPaterno }' , 
-                    '${ user.email }', '${ user.token }', '${ user.ultimoAcceso }', '${ password }' , '${ fechaNacimiento }' , '${ status }' ) ` ;
-   
-    return [] ;
+    const query = `INSERT INTO usuarios ( rut, nombres, apellido_materno, apellido_paterno, email, token, ultimo_acceso, email_verificacion, password, fecha_nacimiento,status ,created )  VALUES (  '${ user.rut }' , '${ user.name }', '' , '' , '${ user.email }', '', now(),'${ mailVerification }', '${ password }' , '0000-00-00 00:00:00' , 0 , now() ) ;  ` ;
+    
+    const result = await QueryExec( query ) ;
+
+    const queryLastId = `SELECT LAST_INSERT_ID() as lastId ;`
+    const resultLastId = await QueryExec( queryLastId ) ;
+    
+    return resultLastId[0].lastId ;
 }
 
 const auth = async ( rut , password )  =>  await validate( rut , password ) ;
@@ -49,11 +52,13 @@ const validate = async ( rut , password ) => {
 
         const passDecrypt = await decrypt( userFounded.password ) ;
 
+        if( userFounded.status != 1 ) return false ;
+
         if( passDecrypt != password ) return false ;
     
         const token = generateToken() ;
     
-        const responseUpdate = await UpdateField( 'usuarios', 'token' , token, 'string' ) ;
+        const responseUpdate = await UpdateField( 'token' , token, userFounded,id ,'string' ) ;
     
         userFounded.token = token ;
         return { isValidate : true , data : userFounded } ;
@@ -65,10 +70,11 @@ const validate = async ( rut , password ) => {
    
 }
 
-const UpdateField = async ( table, field , value , type = 'number' ) => {
+const UpdateField = async (  field , value , id , type = 'number' ) => {
 
     const fieldValue = ( type == 'string' ) ? `'${ value }'` : value ;   
-    const query = `UPDATE ${ table } SET ${ field } = ${ fieldValue } ; `;
+    const query = `UPDATE usuarios SET ${ field } = ${ fieldValue }  WHERE id=${id} ; `;
+    console.log('query' , query);
     const result = await QueryExec( query ) ;
     return result ;
 }

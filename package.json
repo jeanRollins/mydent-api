@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.0",
     "cors": "^2.8.5",
     "cryptr": "^6.0.2",
     "custom-env": "^2.0.1",

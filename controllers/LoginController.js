@@ -75,5 +75,7 @@ const validToken = async ( req , res )  => {
     
 }
 
+
+
 module.exports = { home, authorize , validToken } ;
 

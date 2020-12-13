@@ -11,7 +11,14 @@ const generateString =  stringlength  => {
 
 const generateToken = () => 'TOKEN_' + generateString( 50 ) ;
 
+const generateMailVerification = () => 'MAIL_' + generateString( 44 ) ;
+
+//const RuteAppMydent = `http://localhost:3000` ;
+const RuteAppMydent = `https://safe-river-95287.herokuapp.com` ;
+
 
 module.exports = {
-    generateToken
+	generateToken ,
+	generateMailVerification ,
+	RuteAppMydent
 }

@@ -85,8 +85,6 @@ const createUser = async ( req , res ) => {
                     link  : ruteMailVerify
                 }) ;
 
-                console.log('responseMail'  , responseMail ) ;
-
                 res.send( { 
                     valid : true,
                     message :  dataUser.nombres  
@@ -101,7 +99,6 @@ const createUser = async ( req , res ) => {
                 });
             }
         }
-
     }
     catch (error) {
 
@@ -150,8 +147,6 @@ const validateData = async ( email , rut , password ) => {
     }
 
     const validateRut = await ValidateRut( rut ) ;
-    console.log('rut**************************' , rut);
-    console.log('validateRut**************************' , validateRut);
 
     if( !validateRut ){
         response.message  = 'Rut  used' ;

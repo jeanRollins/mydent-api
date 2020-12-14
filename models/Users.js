@@ -42,7 +42,6 @@ const auth = async ( rut , password )  =>  await validate( rut , password ) ;
 
 const validate = async ( rut , password ) => {
     rut = rut.replace('-', '') ;
-    console.log('rut' , rut);
     
     let userFounded = await GetUser( rut ) ;
     
@@ -78,7 +77,6 @@ const UpdateField = async (  field , value , id , type = 'number' ) => {
 
     const fieldValue = ( type == 'string' ) ? `'${ value }'` : value ;   
     const query = `UPDATE usuarios SET ${ field } = ${ fieldValue }  WHERE id=${id} ; `;
-    console.log('query' , query);
     const result = await QueryExec( query ) ;
     return result ;
 }

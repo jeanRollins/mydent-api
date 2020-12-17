@@ -6,6 +6,8 @@ const { validateRutExist, validateEmailExist, createUser, VerifyMail }  = requir
 const { GetSpecialtyData }  = require('../controllers/SpecialtyController') ;
 
 const { home , authorize , validToken  }  = require('../controllers/LoginController') ;
+const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget }  = require('../controllers/BudgetController') ;
+
 
 const { index } = require('../controllers/AppController') ;
 
@@ -25,6 +27,12 @@ router.post( '/user/AddUser' ,  createUser ) ;
 
 //SpecialtyController
 router.get( '/specialty/GetSpecialty' ,  GetSpecialtyData ) ;
+
+
+//BudgetController
+router.post( '/api/budget/AddItemBudget' ,  AddItemBudget ) ;
+router.post( '/api/budget/DeleteItemBudget' ,  DeleteItemBudget ) ;
+router.post( '/api/budget/GetItemsBudget' ,  GetItemsBudget ) ;
 
 
 

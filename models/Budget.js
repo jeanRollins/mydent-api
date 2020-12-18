@@ -13,7 +13,7 @@ const DeleteItem = async id  => {
 }
 
 const GetItems = async rut  => {
-    const query = ` SELECT * FROM presupuestos_tratamientos pt INNER JOIN especialidades_tratamiento et ON et.id = pt.id_tratamiento  INNER JOIN especialidades e ON e.id = et.id_especialidad WHERE pt.rut_usuario = '${rut}';` ;
+    const query = ` SELECT pt.id as id_presupuesto, pt.rut_usuario as rut, pt.id_tratamiento as id_tratamiento, pt.valor as valor, e.*, et.*  FROM presupuestos_tratamientos pt INNER JOIN especialidades_tratamiento et ON et.id = pt.id_tratamiento  INNER JOIN especialidades e ON e.id = et.id_especialidad WHERE pt.rut_usuario = '${rut}';` ;
     const result = await QueryExec( query ) ;
     return result ;
 }

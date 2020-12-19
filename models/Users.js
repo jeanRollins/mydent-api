@@ -15,6 +15,14 @@ const GetUser = async ( value , field = 'rut' ) => {
     return ( result.length > 0 ) ? result[0] : [] ;
 }
 
+
+const GetUserData = async ( value ) => {
+
+    const query = `SELECT * FROM usuarios WHERE rut = '${ value }' ` ;
+    const result = await QueryExec( query ) ;
+    return ( result.length > 0 ) ? result[0] : {} ;
+}
+
 const GetUserByField = async ( field , value ) => {
     const query = `SELECT * FROM usuarios WHERE ${field} = '${ value }' ` ;
     const result = await QueryExec( query ) ;
@@ -100,5 +108,6 @@ module.exports = {
     auth ,
     GetUser ,
     ValidateRut ,
-    ValidateEmail
+    ValidateEmail ,
+    GetUserData
 }

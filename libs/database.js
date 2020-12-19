@@ -12,6 +12,8 @@ const conn = mysql.createConnection({
 const query = util.promisify(conn.query).bind(conn);
 
 const QueryExec =  async sql  => {
+    sql = sql.replace(/(\r\n\t|\n|\r\t)/, "") ;
+    sql = sql.replace('\n', "") ;
 
     const result    =  await query( sql ) ;
     const response  =  Object.values( JSON.parse( JSON.stringify( result ) ) ) ;

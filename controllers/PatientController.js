@@ -7,7 +7,8 @@ const {
     PatientValidRut , 
     PatientValidEmail ,
     AddPatientUser ,
-    UpdateField
+    UpdateField ,
+    GetPatientByField
 } = require("../models/Patient");
 
 
@@ -78,7 +79,7 @@ const GetPatientByUserData = async ( req , res ) => {
     }
 }
 
-const GetPatient = async ( ) => {
+const GetPatient = async ( req , res ) => {
     
     try {
  
@@ -96,6 +97,10 @@ const GetPatient = async ( ) => {
         if ( field == undefined || field == '' ){
             field = 'rut' ;
         }
+
+        console.log( value , 'value' );
+        console.log( field , 'field' );
+
 
         const patient = await GetPatientByField( value , field ) ;
 
@@ -165,6 +170,7 @@ const ValidatorAddPatient = async patient => {
     return { action : true , message : 'ok' , data } ; 
 } 
 
+
 const AddPatientFile = async ( req , res ) => {
 
     try {
@@ -226,5 +232,6 @@ const AddPatientFile = async ( req , res ) => {
 module.exports = {
     GetPatient ,
     GetPatientByUserData ,
-    AddPatientFile 
+    AddPatientFile ,
+    
 }

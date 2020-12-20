@@ -4,15 +4,7 @@ var cloudinary = require('cloudinary');
 
 const home = async ( req , res ) => {
 
-    cloudinary.config({ 
-        cloud_name: 'sample', 
-        api_key: '436895833878252', 
-        api_secret: 'jLD8W5tx642j_fDu1kzOlBFrce4' 
-    });
-
-    cloudinary.api.delete_resources(['sample'], function(error, result) {console.log(result, error); });
-    
-    res.send( {hola : 'api'} ) ;
+    res.send( { messagge : 'Welcome to api mydent version 1.0' , status : 200 } ) ;
 }
 
 const authorize = async ( req , res ) => {

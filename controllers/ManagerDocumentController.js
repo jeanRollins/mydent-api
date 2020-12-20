@@ -1,7 +1,7 @@
 
 //const { AddDocumentModel } = require('../models/Documents');
 
-const { AddDocumentModel, getAllDocumentByUserAndPacient } = require("../models/Document");
+const { AddDocumentModel, getAllDocumentByUserAndPacient , DeleteDocument} = require("../models/Document");
 
 
 const addDocument = async (req, res) => {
@@ -22,24 +22,34 @@ const addDocument = async (req, res) => {
         rutUser,
         rutPacient
     };
-
-
+    
     const responseValidate = await validateData(document);
 
-    if (!responseValidate.validate) {
+    if (!responseValidate.action) {
         res.send(responseValidate)
-    } else {
-        //AddDocumentModel(document);
+    } 
+    else {
+
+        try {
+            const responseAdd = await AddDocumentModel( document ) ;
+            res.send( {action :true , message: 'ok'} )
+            
+        } catch (error) {
+            res.send( {
+                action : false  , 
+                message: error
+            } )
+        }
     }
 }
 
 
-const validateData = async document => {
+const validateData =  document => {
 
     let response = {};
 
     response.message = 'Valid data';
-    response.validate = true;
+    response.action = true;
 
 
     if (document.name === '' || document.name === undefined ||
@@ -49,9 +59,8 @@ const validateData = async document => {
         document.rutUser === '' || document.rutUser === undefined ||
         document.rutPacient === '' || document.rutPacient === undefined) {
         response.message = 'Object invalid'
-        response.validate = false
-        return response;
-
+        response.action = false
+        return response ;
     }
     return response ;
 }
@@ -88,4 +97,22 @@ const getDocuments = async (req, res) => {
     }
 }
 
-module.exports = { addDocument, getDocuments };
+const DestroyDocument = async (req, res)  => {
+
+    const id  = req.param( 'id' ) ;
+
+    if ( !id || id === undefined ){
+        response.message = 'Id document required.';
+        response.action = false;
+        res.send( response ) ;
+        return false ;
+    }
+
+    try {
+        const response = await DeleteDocument( id );
+        res.send({ action : true , message : 'ok' }) ;
+    } catch (error) {
+        res.send({ action: false, message: error })
+    }
+}
+module.exports = { addDocument, getDocuments , DestroyDocument};

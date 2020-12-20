@@ -14,5 +14,10 @@ const getAllDocumentByUserAndPacient = async ruts => {
     return result;
 }
 
+const DeleteDocument = async id => {
+    const query = `DELETE FROM documentos WHERE id = ${id}`;
+    const result = await QueryExec( query ) ;
+    return result;
+}
 
-module.exports = { AddDocumentModel,getAllDocumentByUserAndPacient } 
+module.exports = { AddDocumentModel,getAllDocumentByUserAndPacient, DeleteDocument } 

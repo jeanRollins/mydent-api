@@ -9,7 +9,7 @@ const { GetSpecialtyData }  = require('../controllers/SpecialtyController') ;
 const { home , authorize , validToken  }  = require('../controllers/LoginController') ;
 const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget }  = require('../controllers/BudgetController') ;
 
-const { addDocument, getDocuments }  = require('../controllers/ManagerDocumentController') ;
+const { addDocument, getDocuments, DestroyDocument }  = require('../controllers/ManagerDocumentController') ;
 
 const { GetPatient , GetPatientByUserData , AddPatientFile , GetForecastsData , ValidatePatientExistByUserData }  = require('../controllers/PatientController') ;
 
@@ -56,6 +56,6 @@ router.post( '/api/patient/ValidatePatientExistByUserData' ,  ValidatePatientExi
 //ManagerDocumentController
 router.post( '/api/managerDocument/AddDocument'  ,  addDocument ) ;
 router.post( '/api/managerDocument/GetDocuments' ,  getDocuments ) ;
-
+router.post( '/api/managerDocument/DestroyDocument' ,  DestroyDocument ) ;
 
 module.exports = router ;

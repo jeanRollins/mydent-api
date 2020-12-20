@@ -1,15 +1,18 @@
 const { auth  , GetUsers, GetUser }   = require('../models/Users') ;
 const { encrypt , decrypt  } = require('../libs/Encrypt') ;
+var cloudinary = require('cloudinary');
 
 const home = async ( req , res ) => {
 
-    const users  = await GetUsers( ) ;
+    cloudinary.config({ 
+        cloud_name: 'sample', 
+        api_key: '436895833878252', 
+        api_secret: 'jLD8W5tx642j_fDu1kzOlBFrce4' 
+    });
 
-    const pass   = await encrypt( '123456' ) ;
-
-    const dec = await decrypt( pass ) ;
-
-    res.send( users ) ;
+    cloudinary.api.delete_resources(['sample'], function(error, result) {console.log(result, error); });
+    
+    res.send( {hola : 'api'} ) ;
 }
 
 const authorize = async ( req , res ) => {

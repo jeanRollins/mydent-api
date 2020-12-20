@@ -203,7 +203,7 @@ const AddPatientFile = async ( req , res ) => {
             res.send( response ) ;
             return false ;
         }
-        const  responseAddFile = await AddFile ( patient['rut'] , patient['groupBlood'] , patient['medicaments'], patient['height'], patient['observations'] )
+        const  responseAddFile = await AddFile ( patient['rut'] , patient['groupBlood'] , patient['medicaments'], patient['height'], patient['observations'] ) ;
         console.log('responseAddFile' , responseAddFile );
         if( !responseAddFile ) {
             response.action  = false ;
@@ -267,7 +267,7 @@ const ValidatePatientExistByUserData = async ( req , res ) => {
         }else {
 
             const isValid = await ValidatePatientExistByUser( field , value ) ;
-            
+
             if( !isValid ){
                 response.action   =  false ; 
                 response.message =  'Rut ocupped for other patient' ;

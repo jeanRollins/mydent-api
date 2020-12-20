@@ -11,7 +11,7 @@ const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget }  = require('../contr
 
 const { addDocument }  = require('../controllers/ManagerDocumentController') ;
 
-const { GetPatient , GetPatientByUserData , AddPatientFile , GetForecastsData }  = require('../controllers/PatientController') ;
+const { GetPatient , GetPatientByUserData , AddPatientFile , GetForecastsData , ValidatePatientExistByUserData }  = require('../controllers/PatientController') ;
 
 
 
@@ -51,7 +51,6 @@ router.post( '/api/patient/GetPatient' ,  GetPatient ) ;
 router.post( '/api/patient/GetPatientByUserData' ,  GetPatientByUserData ) ;
 router.post( '/api/patient/AddPatient' ,  AddPatientFile ) ;
 router.get( '/api/patient/GetForecastsData' ,  GetForecastsData ) ;
-
-
+router.post( '/api/patient/ValidatePatientExistByUserData' ,  ValidatePatientExistByUserData ) ;
 
 module.exports = router ;

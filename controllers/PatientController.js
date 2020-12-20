@@ -9,7 +9,8 @@ const {
     AddPatientUser ,
     UpdateField ,
     GetPatientByField ,
-    GetForecasts
+    GetForecasts ,
+    ValidatePatientExistByUser
 } = require("../models/Patient");
 
 
@@ -236,9 +237,70 @@ const GetForecastsData = async ( req , res )  => {
     res.send( forecasts ) ;
 } 
 
+const ValidatePatientExistByUserData = async ( req , res ) => {
+    
+    try {
+ 
+        let response = {  action : true , message : 'ok' } ;
+      
+        let value = req.param('value') ;
+        let field = req.param('field') ;
+
+
+        if ( value == undefined || value == '' ){
+            response.message = 'Value empty' ;
+            response.action  = false ;
+        }
+
+        if ( field == undefined || field == '' ){
+            response.message = 'Field empty' ;
+            response.action  = false ;
+        }
+
+      
+
+
+        let isValidEmail = true ;
+
+        if( field == 'email' ){
+            isValidEmail = await PatientValidEmail( value ) ;
+        }else {
+
+            const isValid = await ValidatePatientExistByUser( field , value ) ;
+            
+            if( !isValid ){
+                response.action   =  false ; 
+                response.message =  'Rut ocupped for other patient' ;
+                res.send( response ) ;
+                return false ;
+            }
+        }
+
+        console.log('isValidEmail' , isValidEmail)
+        if( !isValidEmail ){
+            response.action   =  false ; 
+            response.message =  'Email ocupped for other patient' ;
+            res.send( response ) ;
+            return false ;
+        }
+
+        res.send( response ) ;
+
+    } 
+    catch (error) {
+        res.send( { 
+            action  : false , 
+            message : error ,
+            data    : {} 
+        } ) ;
+    }
+};
+
+
 module.exports = {
     GetPatient ,
     GetPatientByUserData ,
     AddPatientFile ,
-    GetForecastsData
+    GetForecastsData ,
+    ValidatePatientExistByUserData
 }

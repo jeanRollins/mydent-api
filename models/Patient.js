@@ -77,6 +77,13 @@ const GetForecasts = async () => {
     return  result ;
 }
 
+const ValidatePatientExistByUser = async ( field , value ) => {
+    value = field == 'rut_paciente' ? value.replace('-' , '') : value ;
+    const query = `SELECT * FROM usuario_pacientes WHERE ${ field }='${ value }'`;
+    const result = await QueryExec( query ) ;
+    return ( result.length < 1 ) 
+}
+
 
 
 const DeletePatient = async rut  => {
@@ -103,5 +110,6 @@ module.exports = {
     PatientValidEmail ,
     AddPatientUser ,
     UpdateField ,
-    GetForecasts
+    GetForecasts ,
+    ValidatePatientExistByUser
 }

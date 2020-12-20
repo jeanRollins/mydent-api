@@ -71,6 +71,12 @@ const AddPatientUser = async  ( rutUser , rutPatient )  => {
     return ( resultLastId[0].lastId === undefined ) ? false : resultLastId[0].lastId;
 }
 
+const GetForecasts = async () => {
+    const query = `SELECT * FROM prevision` ;
+    const result = await QueryExec( query ) ;
+    return  result ;
+}
+
 
 
 const DeletePatient = async rut  => {
@@ -96,5 +102,6 @@ module.exports = {
     PatientValidRut ,
     PatientValidEmail ,
     AddPatientUser ,
-    UpdateField
+    UpdateField ,
+    GetForecasts
 }

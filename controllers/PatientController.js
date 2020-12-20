@@ -8,7 +8,8 @@ const {
     PatientValidEmail ,
     AddPatientUser ,
     UpdateField ,
-    GetPatientByField
+    GetPatientByField ,
+    GetForecasts
 } = require("../models/Patient");
 
 
@@ -229,9 +230,15 @@ const AddPatientFile = async ( req , res ) => {
     }
 }
 
+const GetForecastsData = async ( req , res )  => {
+
+    const forecasts = await  GetForecasts() ;
+    res.send( forecasts ) ;
+} 
+
 module.exports = {
     GetPatient ,
     GetPatientByUserData ,
     AddPatientFile ,
-    
+    GetForecastsData
 }

@@ -4,6 +4,7 @@ const { QueryExec } = require('../libs/database') ;
 const GetPatientByField = async ( value , field = 'rut' )  =>  {
     const query  = `SELECT p.*, pf.* FROM pacientes p 
                     INNER JOIN pacientes_ficha pf ON pf.rut = p.rut 
+                    INNER JOIN prevision pr ON p.prevision  = pr.id 
                     WHERE p.${ field } = '${ value }' 
                     AND p.estado = 1 ` ;
     const result = await QueryExec( query ) ;

@@ -2,7 +2,7 @@ const { QueryExec } = require('../libs/database') ;
 
 
 const GetPatientByField = async ( value , field = 'rut' )  =>  {
-    const query  = `SELECT p.*, pf.* FROM pacientes p 
+    const query  = `SELECT p.*, pf.*, pr.name as name_prevision FROM pacientes p 
                     INNER JOIN pacientes_ficha pf ON pf.rut = p.rut 
                     INNER JOIN prevision pr ON p.prevision  = pr.id 
                     WHERE p.${ field } = '${ value }' 

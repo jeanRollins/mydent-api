@@ -11,12 +11,10 @@ const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget }  = require('../contr
 
 const { addDocument, getDocuments, DestroyDocument }  = require('../controllers/ManagerDocumentController') ;
 
-const { GetPatient , GetPatientByUserData , AddPatientFile , GetForecastsData , ValidatePatientExistByUserData }  = require('../controllers/PatientController') ;
-
-
-
+const { GetPatient , GetPatientByUserData , AddPatientFile , GetForecastsData , ValidatePatientExistByUserData, UpdatePatientFile }  = require('../controllers/PatientController') ;
 
 const { index } = require('../controllers/AppController') ;
+const { GetPatientHistory, AddHistoryPatient } = require('../controllers/HistoryController');
 
 router.use( index ) ;
 
@@ -57,5 +55,11 @@ router.post( '/api/patient/ValidatePatientExistByUserData' ,  ValidatePatientExi
 router.post( '/api/managerDocument/AddDocument'  ,  addDocument ) ;
 router.post( '/api/managerDocument/GetDocuments' ,  getDocuments ) ;
 router.post( '/api/managerDocument/DestroyDocument' ,  DestroyDocument ) ;
+
+
+//HistoryController
+router.post( '/api/historyController/AddHistoryPatient'  ,  AddHistoryPatient ) ;
+router.post( '/api/historyController/GetPatientHistory' ,  GetPatientHistory ) ;
+router.post( '/api/historyController/UpdatePatientFile' ,  UpdatePatientFile ) ;
 
 module.exports = router ;

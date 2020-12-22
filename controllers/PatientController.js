@@ -10,7 +10,9 @@ const {
     UpdateField ,
     GetPatientByField ,
     GetForecasts ,
-    ValidatePatientExistByUser
+    ValidatePatientExistByUser ,
+    UpdatePatient ,
+    UpdateFile
 } = require("../models/Patient");
 
 
@@ -195,8 +197,6 @@ const AddPatientFile = async ( req , res ) => {
                                     patient['born']
                                 )  ;
 
-        console.log('responseAdd' , responseAdd);
-
         if( !responseAdd ) {
             response.action  = false ;
             response.message = 'Error add patient' ;
@@ -204,7 +204,7 @@ const AddPatientFile = async ( req , res ) => {
             return false ;
         }
         const  responseAddFile = await AddFile ( patient['rut'] , patient['groupBlood'] , patient['medicaments'], patient['height'], patient['observations'] ) ;
-        console.log('responseAddFile' , responseAddFile );
+
         if( !responseAddFile ) {
             response.action  = false ;
             response.message = 'Error add file patient' ;
@@ -297,10 +297,96 @@ const ValidatePatientExistByUserData = async ( req , res ) => {
 };
 
 
+const ValidatorUpdatePatient = async patient => {
+
+    const params = [ 'rut' , 'name', 'lasnameMother' , 'lasnameFather' , 'prevision',  'email', 'born'] ;
+    let data = {} ; 
+    let valid    = true ; 
+    let response = null ; 
+     
+    for( let i of params ){
+        
+        let value    = patient[i] ;
+        response = null ; 
+        valid    = true ; 
+
+        if ( value == undefined || value == '' ){    
+            response  = { action : false , message : i + ' empty' } ;
+            valid = false ; 
+            break ;
+        }
+    }
+    
+    if( !valid ){
+        return response ;
+    }  
+
+   
+    const rutFormat = ValidateRutFormat( patient['rut'] ) ;
+    if( !rutFormat ){
+        return { action : false , message : 'Rut is not format.' } ;
+    }
+
+    const emailFormat = ValidateEmailFormat( patient['email'] ) ;
+    if( !emailFormat ){
+        return { action : false , message : 'Email is not format.' } ;
+    }
+    
+    return { action : true , message : 'ok' , data } ; 
+} 
+const UpdatePatientFile = async ( req , res ) => {
+
+    try {
+        let response = { action : true , message : 'ok'} ;
+        const patient = req.body ;
+
+        const isValid = await ValidatorUpdatePatient( patient ) ;
+    
+        if( !isValid.action ) {
+            response.action  = false ;
+            response.message = isValid.message ;
+            res.send( response ) ;
+            return false ;
+        }
+        
+        const responseAdd = await UpdatePatient( 
+                                    patient['name'], patient['lasnameMother'], 
+                                    patient['lasnameFather'], patient['prevision'], 
+                                    patient['rut'], patient['email'], 
+                                    patient['born']
+                                )  ;
+        if( !responseAdd ) {
+            response.action  = false ;
+            response.message = 'Error add patient' ;
+            res.send( response ) ;
+            return false ;
+        }
+        const  responseAddFile = await UpdateFile( patient['rut'] , patient['groupBlood'] , patient['medicaments'], patient['height'], patient['observations'] ) ;
+
+        if( !responseAddFile ) {
+            response.action  = false ;
+            response.message = 'Error add file patient' ;
+            res.send( response ) ;
+            return false ;
+        }
+
+
+        const update = await UpdateField( patient['rut'] ) ;
+        res.send( response ) ;
+    } 
+    catch (error) {
+        res.send( { 
+            action  : false , 
+            message : error 
+        } ) ;
+    }
+}
+
 module.exports = {
     GetPatient ,
     GetPatientByUserData ,
     AddPatientFile ,
     GetForecastsData ,
-    ValidatePatientExistByUserData
+    ValidatePatientExistByUserData ,
+    UpdatePatientFile
 }

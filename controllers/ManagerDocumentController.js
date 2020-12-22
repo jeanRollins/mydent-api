@@ -101,7 +101,7 @@ const DestroyDocument = async (req, res)  => {
 
     const id  = req.param( 'id' ) ;
 
-    if ( !id || id === undefined ){
+    if ( !id || id === undefined ) {
         response.message = 'Id document required.';
         response.action = false;
         res.send( response ) ;
@@ -115,4 +115,4 @@ const DestroyDocument = async (req, res)  => {
         res.send({ action: false, message: error })
     }
 }
-module.exports = { addDocument, getDocuments , DestroyDocument};
+module.exports = { addDocument, getDocuments , DestroyDocument } ;

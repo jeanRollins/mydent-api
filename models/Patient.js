@@ -12,7 +12,7 @@ const GetPatientByField = async ( value , field = 'rut' )  =>  {
 }
 
 const PatientValidRut = async rut   =>  {
-    rut = rut.replace('-' , '') ;
+    rut = rut.replace('-' , '' ) ;
     const query  = `SELECT * FROM pacientes WHERE rut ='${ rut }'` ;
     const result = await QueryExec( query ) ;
     return ( result.length < 1 )  ;
@@ -53,7 +53,7 @@ const AddFile = async  ( rut , groupBlood ,medicaments, height, observations )  
     rut = rut.replace('-' , '') ;
     const query = `INSERT INTO pacientes_ficha (rut, grupo_sanguineo, medicamentos, estatura, observaciones)  
                     VALUES
-                    ( '${rut}', '${ groupBlood }', '${height}' , '${medicaments}', '${observations}' )` ;
+                    ( '${rut}', '${ groupBlood }', '${medicaments}' , '${height}', '${observations}' )` ;
 
     console.log('query', query)
     const  result = await QueryExec( query ) ;
@@ -100,6 +100,32 @@ const UpdateField = async  rut  => {
     return result ;
 }
 
+const UpdatePatient = async ( name , lasnameMother ,lasnameFather ,prevision, rut ,mail , born)  => {
+    rut = rut.replace('-' , '') ;
+    const query = `UPDATE pacientes 
+                   SET nombres='${name}', apellido_materno='${ lasnameMother }',
+                   apellido_paterno='${lasnameFather}', prevision=${prevision},
+                   correo='${ mail }', fecha_nacimiento='${ born }' 
+                   WHERE rut='${rut}' ;` ;
+    const result = await QueryExec( query ) ;
+    return  result ;
+}
+
+const UpdateFile = async  ( rut , groupBlood ,medicaments, height, observations )  => {
+
+    rut = rut.replace('-' , '') ;
+    const query = `UPDATE  pacientes_ficha 
+                    SET 
+                    grupo_sanguineo='${ groupBlood }' , 
+                    medicamentos ='${medicaments}' ,
+                    estatura ='${height}' ,
+                    observaciones ='${observations}' 
+                    WHERE rut='${rut}' ;` ;
+
+    const result = await QueryExec( query ) ;
+    return result;
+}
+
 
 module.exports = {
     GetPatientByField ,
@@ -112,5 +138,7 @@ module.exports = {
     AddPatientUser ,
     UpdateField ,
     GetForecasts ,
-    ValidatePatientExistByUser
+    ValidatePatientExistByUser ,
+    UpdatePatient,
+    UpdateFile
 }

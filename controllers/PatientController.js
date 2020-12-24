@@ -12,9 +12,49 @@ const {
     GetForecasts ,
     ValidatePatientExistByUser ,
     UpdatePatient ,
-    UpdateFile
+    UpdateFile ,
+    SearchPatientsUsers
 } = require("../models/Patient");
 
+
+const SearchPatients = async ( req , res ) => {
+
+    try {
+ 
+        let response = { action : true , message : 'ok'} ;
+        
+        const { rutUser , value , field } = req.body ;
+        
+        if ( rutUser == undefined || rutUser == '' ){
+            response.message = 'rutUser empty' ;
+            response.action = false ;
+        }
+        
+        if ( value == undefined || value == '' ){
+            response.message = 'value empty' ;
+            response.action = false ;
+        }
+        let fieldToSearch = 'rut_paciente' ;
+        //field = ( field == undefined   ) ? 'rut_paciente' : field ;
+        if( field === undefined  ||  field == '' ) {
+            fieldToSearch = 'rut_paciente' ;
+        }
+        else {
+            fieldToSearch = field ;
+        }
+        let patientsFounded = await SearchPatientsUsers( rutUser , value , fieldToSearch ) ;
+        response.data = patientsFounded ;
+        res.send( response ) ;
+
+    } 
+    catch (error) {
+        res.send( { 
+            action  : false , 
+            message : error ,
+            data    : []
+        } ) ;
+    }
+}
 
 const RemovePatient = async ( req , res ) => {
     
@@ -321,7 +361,8 @@ const ValidatorUpdatePatient = async patient => {
         return response ;
     }  
 
-   
+
+   console.log('patient[rut]' , patient['rut']);
     const rutFormat = ValidateRutFormat( patient['rut'] ) ;
     if( !rutFormat ){
         return { action : false , message : 'Rut is not format.' } ;
@@ -388,5 +429,6 @@ module.exports = {
     AddPatientFile ,
     GetForecastsData ,
     ValidatePatientExistByUserData ,
-    UpdatePatientFile
+    UpdatePatientFile ,
+    SearchPatients
 }

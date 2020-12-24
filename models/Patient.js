@@ -25,6 +25,8 @@ const PatientValidEmail = async email   =>  {
 }
 
 const GetPatientByUser = async rut  =>  {
+    rut = rut.replace('-' , '' ) ;
+
     const query  = `SELECT p.*, pf.* , pr.name as name_prevision  FROM usuario_pacientes up 
                     INNER JOIN pacientes p ON p.rut = up.rut_paciente 
                     INNER JOIN pacientes_ficha pf ON pf.rut = up.rut_paciente 
@@ -33,6 +35,7 @@ const GetPatientByUser = async rut  =>  {
     const result = await QueryExec( query ) ;
     return ( result.length > 0 ) ? result : [] ;
 }
+
 
 const AddPatient = async  ( name , lasnameMother ,lasnameFather ,prevision ,rut ,mail , born )  => {
     rut = rut.replace('-' , '') ;
@@ -55,7 +58,6 @@ const AddFile = async  ( rut , groupBlood ,medicaments, height, observations )  
                     VALUES
                     ( '${rut}', '${ groupBlood }', '${medicaments}' , '${height}', '${observations}' )` ;
 
-    console.log('query', query)
     const  result = await QueryExec( query ) ;
     const queryLastId = `SELECT LAST_INSERT_ID() as lastId ;`
     const resultLastId = await QueryExec( queryLastId ) ;
@@ -127,6 +129,24 @@ const UpdateFile = async  ( rut , groupBlood ,medicaments, height, observations 
 }
 
 
+
+const SearchPatientsUsers = async ( rutUser , value , field = 'rut_paciente' )  =>  {
+    rutUser  =  rutUser.replace('-' , '' ) ;
+    value    =  value.replace('-' , '' ) ;
+
+    const query  = `SELECT p.*, pr.name as name_prevision  FROM usuario_pacientes up 
+                    INNER JOIN pacientes p ON p.rut = up.rut_paciente 
+                    INNER JOIN pacientes_ficha pf ON pf.rut = up.rut_paciente 
+                    INNER JOIN prevision pr ON p.prevision = pr.id
+                    WHERE 
+                    up.rut_usuario = '${ rutUser }' AND
+                    up.${ field } LIKE '%${ value }%'` ;
+
+    const result = await QueryExec( query ) ;
+    return ( result.length > 0 ) ? result : [] ;
+}
+                    
+
 module.exports = {
     GetPatientByField ,
     AddPatient ,
@@ -140,5 +160,6 @@ module.exports = {
     GetForecasts ,
     ValidatePatientExistByUser ,
     UpdatePatient,
-    UpdateFile
+    UpdateFile ,
+    SearchPatientsUsers
 }

@@ -11,7 +11,7 @@ const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget }  = require('../contr
 
 const { addDocument, getDocuments, DestroyDocument }  = require('../controllers/ManagerDocumentController') ;
 
-const { GetPatient , GetPatientByUserData , AddPatientFile , GetForecastsData , ValidatePatientExistByUserData, UpdatePatientFile }  = require('../controllers/PatientController') ;
+const { GetPatient , GetPatientByUserData , AddPatientFile , GetForecastsData , ValidatePatientExistByUserData, UpdatePatientFile, SearchPatients }  = require('../controllers/PatientController') ;
 
 const { index } = require('../controllers/AppController') ;
 const { GetPatientHistory, AddHistoryPatient } = require('../controllers/HistoryController');
@@ -48,8 +48,11 @@ router.post( '/api/managerDocument/AddDocument' , upload.single( 'imgFile' ) ,  
 router.post( '/api/patient/GetPatient' ,  GetPatient ) ;
 router.post( '/api/patient/GetPatientByUserData' ,  GetPatientByUserData ) ;
 router.post( '/api/patient/AddPatient' ,  AddPatientFile ) ;
-router.get( '/api/patient/GetForecastsData' ,  GetForecastsData ) ;
+router.get(  '/api/patient/GetForecastsData' ,  GetForecastsData ) ;
 router.post( '/api/patient/ValidatePatientExistByUserData' ,  ValidatePatientExistByUserData ) ;
+router.post( '/api/patient/UpdatePatientFile' ,  UpdatePatientFile ) ;
+router.post( '/api/patient/SearchPatients' ,  SearchPatients ) ;
+
 
 //ManagerDocumentController
 router.post( '/api/managerDocument/AddDocument'  ,  addDocument ) ;
@@ -58,8 +61,7 @@ router.post( '/api/managerDocument/DestroyDocument' ,  DestroyDocument ) ;
 
 
 //HistoryController
-router.post( '/api/historyController/AddHistoryPatient'  ,  AddHistoryPatient ) ;
-router.post( '/api/historyController/GetPatientHistory' ,  GetPatientHistory ) ;
-router.post( '/api/historyController/UpdatePatientFile' ,  UpdatePatientFile ) ;
+router.post( '/api/history/AddHistoryPatient'  ,  AddHistoryPatient ) ;
+router.post( '/api/history/GetPatientHistory' ,   GetPatientHistory ) ;
 
 module.exports = router ;

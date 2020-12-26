@@ -17,7 +17,7 @@ const { index } = require('../controllers/AppController') ;
 const { GetPatientHistory, AddHistoryPatient } = require('../controllers/HistoryController');
 
 
-const { AddTime ,GetTimes } = require('../controllers/TimeController');
+const { AddTime ,GetTimes , ChangeStatusTime} = require('../controllers/TimeController');
 
 
 router.use( index ) ;
@@ -72,5 +72,6 @@ router.post( '/api/history/GetPatientHistory' ,   GetPatientHistory ) ;
 //TimeController
 router.post( '/api/time/AddTime', AddTime ) ;
 router.post( '/api/time/GetTimes', GetTimes ) ;
+router.post( '/api/time/ChangeStatusTime', ChangeStatusTime ) ;
 
 module.exports = router ;

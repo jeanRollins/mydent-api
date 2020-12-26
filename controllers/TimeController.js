@@ -1,4 +1,4 @@
-const { AddDetail, Add, GetTimesFull } = require("../models/Time");
+const { AddDetail, Add, GetTimesFull , ChangeStatus } = require("../models/Time");
 
 const ValidateTime = async ( codTime, rutPatient, rutUser, date, time ) => {
 
@@ -118,6 +118,35 @@ const GetTimes = async ( req , res ) => {
         } ) ;
     }   
 }
+
+
+const ChangeStatusTime = async ( req , res ) => {
+
+    let response = { action : true , message : 'ok'} ;
+
+    try {
+        const { id } = req.body ;
+        
+        if ( id == undefined || id == '' ){
+            response.message = 'id empty' ;
+            response.action = false ;
+            return response ;
+        }
+
+        const timesFounded = await ChangeStatus( id ) ;
+        
+        res.send( response ) ;
+    } 
+    catch (error) {
+        res.send( { 
+            action  : false , 
+            message : error 
+        } ) ;
+    }   
+}
+
+
+
 module.exports = {
-    AddTime , GetTimes
+    AddTime , GetTimes , ChangeStatusTime
 }

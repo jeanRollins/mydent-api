@@ -25,8 +25,8 @@ const GetTimesFull = async  ( rutUsuario, since, until )  => {
                    FROM horas h 
                    INNER JOIN horas_detalle hd ON hd.codigo_hora = h.codigo_hora 
                    WHERE rut_usuario = '${rutUsuario}'  
-                   AND fecha > '${ since }'  
-                   AND fecha < '${ until }'  
+                   AND fecha >= '${ since }'  
+                   AND fecha <= '${ until }'  
                    ORDER BY h.fecha ASC` ;    
     const result = await QueryExec( query ) ;
     return result ;

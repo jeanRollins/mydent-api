@@ -1,4 +1,4 @@
-const { AddDetail, Add } = require("../models/Time");
+const { AddDetail, Add, GetTimesFull } = require("../models/Time");
 
 const ValidateTime = async ( codTime, rutPatient, rutUser, date, time ) => {
 
@@ -49,9 +49,8 @@ const AddTime = async ( req , res ) => {
             res.send( responseValidate ) ;
             return false ;
         }
-
         const idDetail = await AddDetail( codTime , '' )  ;
-        console.log( 'idDetail' , idDetail ) ;
+
         if( !idDetail ) {
             response.message = 'idDetail no insert' ;
             response.action = false ;
@@ -60,7 +59,6 @@ const AddTime = async ( req , res ) => {
         }
 
         let idTime = await Add( codTime , rutPatient , rutUser, date, time  ) ;
-        console.log( 'idTime' , idTime ) ;
         response.data =  {  idTime , codTime  } ;
         res.send( response ) ;
     } 
@@ -72,6 +70,54 @@ const AddTime = async ( req , res ) => {
     }
 }
 
+const ValidateTimes = ( rutUsuario, since, until ) => {
+    let response = { action : true , message : 'ok'} ;
+
+    if ( rutUsuario == undefined || rutUsuario == '' ){
+        response.message = 'rutUsuario empty' ;
+        response.action = false ;
+        return response ;
+    }
+
+    if ( since == undefined || since == '' ){
+        response.message = 'since empty' ;
+        response.action = false ;
+        return response ;
+    }
+    
+    if ( until == undefined || until == '' ){
+        response.message = 'until empty' ;
+        response.action = false ;
+        return response ;
+    }
+
+    return response ; 
+}
+const GetTimes = async ( req , res ) => {
+
+    let response = { action : true , message : 'ok'} ;
+
+    try {
+        const { rutUser, since, until } = req.body ;
+        const timesValidate = await ValidateTimes( rutUser, since, until ) ;
+       
+        if( !timesValidate.action ){
+            res.send( timesValidate ) ;
+            return false ;
+        }
+
+        const timesFounded = await GetTimesFull( rutUser, since, until ) ;
+        response.data = timesFounded 
+        res.send( response ) ;
+    } 
+    catch (error) {
+        res.send( { 
+            action  : false , 
+            message : error ,
+            data : []
+        } ) ;
+    }   
+}
 module.exports = {
-    AddTime
+    AddTime , GetTimes
 }

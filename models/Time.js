@@ -20,7 +20,20 @@ const AddDetail = async  ( codTime, observation  )  => {
     return result ;
 }
 
+const GetTimesFull = async  ( rutUsuario, since, until )  => {
+    const query = `SELECT h.*, hd.* 
+                   FROM horas h 
+                   INNER JOIN horas_detalle hd ON hd.codigo_hora = h.codigo_hora 
+                   WHERE rut_usuario = '${rutUsuario}'  
+                   AND fecha > '${ since }'  
+                   AND fecha < '${ until }'  
+                   ORDER BY h.fecha ASC` ;    
+    const result = await QueryExec( query ) ;
+    return result ;
+}
+
 module.exports = {
     Add , 
-    AddDetail
+    AddDetail , 
+    GetTimesFull
 }

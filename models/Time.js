@@ -22,7 +22,7 @@ const AddDetail = async  ( codTime, observation  )  => {
 
 const GetTimesFull = async  ( rutUsuario, since, until )  => {
     
-    const query = ` SELECT h.*, hd.*, hd.id as id_orden_detalle ,p.nombres , p.apellido_paterno , CONCAT(p.nombres , ' ' , p.apellido_paterno , ' ', p.apellido_materno ) as fullNombre , he.nombre as estado_nombre 
+    const query = ` SELECT h.*, hd.*, hd.id as id_orden_detalle ,p.nombres , p.apellido_paterno , CONCAT(p.nombres , ' ' , p.apellido_paterno , ' ', p.apellido_materno ) as fullNombre , he.id as id_estado, he.nombre as estado_nombre 
                     FROM horas h 
                     INNER JOIN horas_detalle hd ON hd.codigo_hora = h.codigo_hora 
                     INNER JOIN pacientes p ON p.rut = h.rut_paciente 

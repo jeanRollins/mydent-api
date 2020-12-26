@@ -16,6 +16,10 @@ const { GetPatient , GetPatientByUserData , AddPatientFile , GetForecastsData , 
 const { index } = require('../controllers/AppController') ;
 const { GetPatientHistory, AddHistoryPatient } = require('../controllers/HistoryController');
 
+
+const { AddTime } = require('../controllers/TimeController');
+
+
 router.use( index ) ;
 
 //LoginController
@@ -63,5 +67,9 @@ router.post( '/api/managerDocument/DestroyDocument' ,  DestroyDocument ) ;
 //HistoryController
 router.post( '/api/history/AddHistoryPatient'  ,  AddHistoryPatient ) ;
 router.post( '/api/history/GetPatientHistory' ,   GetPatientHistory ) ;
+
+
+//TimeController
+router.post( '/api/time/AddTime', AddTime ) ;
 
 module.exports = router ;

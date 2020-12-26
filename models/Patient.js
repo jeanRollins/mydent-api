@@ -141,7 +141,6 @@ const SearchPatientsUsers = async ( rutUser , value , field = 'rut_paciente' )  
                     WHERE 
                     up.rut_usuario = '${ rutUser }' AND
                     up.${ field } LIKE '%${ value }%'` ;
-
     const result = await QueryExec( query ) ;
     return ( result.length > 0 ) ? result : [] ;
 }

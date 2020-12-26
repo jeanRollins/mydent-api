@@ -61,7 +61,7 @@ const AddTime = async ( req , res ) => {
 
         let idTime = await Add( codTime , rutPatient , rutUser, date, time  ) ;
         console.log( 'idTime' , idTime ) ;
-
+        response.data =  {  idTime , codTime  } ;
         res.send( response ) ;
     } 
     catch (error) {

@@ -31,7 +31,9 @@ const GetPatientByUser = async rut  =>  {
                     INNER JOIN pacientes p ON p.rut = up.rut_paciente 
                     INNER JOIN pacientes_ficha pf ON pf.rut = up.rut_paciente 
                     INNER JOIN prevision pr ON p.prevision = pr.id
-                    WHERE up.rut_usuario='${ rut }' ` ;
+                    WHERE up.rut_usuario='${ rut }' 
+                    AND   p.estado = 1 ` ;
+                    
     const result = await QueryExec( query ) ;
     return ( result.length > 0 ) ? result : [] ;
 }

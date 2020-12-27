@@ -47,7 +47,6 @@ router.post( '/api/budget/GetItemsBudget' ,  GetItemsBudget ) ;
 //ManagerDocumentController
 router.post( '/api/managerDocument/AddDocument' , upload.single( 'imgFile' ) ,  addDocument ) ;
 
-
 //PatientController
 router.post( '/api/patient/GetPatient' ,  GetPatient ) ;
 router.post( '/api/patient/GetPatientByUserData' ,  GetPatientByUserData ) ;
@@ -62,7 +61,6 @@ router.post( '/api/patient/UpdateStatePatient' ,  updateStatePatient ) ;
 router.post( '/api/managerDocument/AddDocument'  ,  addDocument ) ;
 router.post( '/api/managerDocument/GetDocuments' ,  getDocuments ) ;
 router.post( '/api/managerDocument/DestroyDocument' ,  DestroyDocument ) ;
-
 
 //HistoryController
 router.post( '/api/history/AddHistoryPatient'  ,  AddHistoryPatient ) ;

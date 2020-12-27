@@ -147,7 +147,7 @@ const SearchPatientsUsers = async ( rutUser , value , field = 'rut_paciente' )  
 
 const updatePatientStateModel = async rut =>{
     rut = rut.replace( '-' , '' ) ;
-    const query = `UPDATE pacientes SET estado = 0 WHERE rut = '${data.rutPatient}'`;
+    const query = `UPDATE pacientes SET estado = 0 WHERE rut = '${rut}'`;
     const result = await QueryExec(query);
     return result;
 }

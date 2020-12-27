@@ -430,10 +430,11 @@ const updateStatePatient = async (req, res) => {
 
         let response = { action: true, message: 'ok' };
 
-        let rutUser = req.param('rutUser');
+        //let rutUser = req.param('rutUser');
         let rutPatient = req.param('rutPatient')
 
 
+        /*
         if (rutUser === undefined || !rutUser) {
             response.message = 'Rut usuario vacio';
             response.action = false;
@@ -441,6 +442,7 @@ const updateStatePatient = async (req, res) => {
             return false;
 
         }
+        */
 
         if (rutPatient === undefined || !rutPatient) {
             response.message = 'rut paciente vacio';

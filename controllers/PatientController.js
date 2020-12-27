@@ -13,7 +13,8 @@ const {
     ValidatePatientExistByUser ,
     UpdatePatient ,
     UpdateFile ,
-    SearchPatientsUsers
+    SearchPatientsUsers ,
+    updatePatientStateModel
 } = require("../models/Patient");
 
 
@@ -430,11 +431,9 @@ const updateStatePatient = async (req, res) => {
 
         let response = { action: true, message: 'ok' };
 
-        //let rutUser = req.param('rutUser');
+        let rutUser = req.param('rutUser');
         let rutPatient = req.param('rutPatient')
-
-
-        /*
+        
         if (rutUser === undefined || !rutUser) {
             response.message = 'Rut usuario vacio';
             response.action = false;
@@ -442,7 +441,7 @@ const updateStatePatient = async (req, res) => {
             return false;
 
         }
-        */
+        
 
         if (rutPatient === undefined || !rutPatient) {
             response.message = 'rut paciente vacio';
@@ -450,15 +449,14 @@ const updateStatePatient = async (req, res) => {
             res.send(response);
             return false;
         }
-
+        console.log('response****************' )
         const responseData = await updatePatientStateModel(rutPatient);
         res.send(responseData);
 
     } catch (error) {
         res.send({
             action: false,
-            message: error,
-            data: {}
+            message: error
         });
     }
 

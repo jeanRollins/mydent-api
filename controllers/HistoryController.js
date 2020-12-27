@@ -1,3 +1,4 @@
+const { decrypt } = require("../libs/Encrypt");
 const { AddHistory, GetHistory } = require("../models/History");
 
 
@@ -65,19 +66,25 @@ const GetPatientHistory = async ( req , res ) => {
     }
 
     if ( !rutPatient || rutPatient === undefined ){
-        response.message = 'rutUser required.';
+        response.message = 'rutPatient required.';
         response.action = false;
         res.send( response ) ;
         return false ;
     }
    
     try {
-        const data = await GetHistory( rutUser, rutPatient ) ;
+        let data = await GetHistory( rutUser, rutPatient ) ;
 
         if( !data ){
             res.send( { action: false , message : 'Problem to insert'} ) ;
             return false ;
         }
+  
+        data =  data.map( row =>  {
+            row.historial = decrypt( row.historial ) ;
+            return row ;
+        }) ;
+
         res.send( { action: true , message : 'ok' , data } ) ;
         
     } catch ( error) {

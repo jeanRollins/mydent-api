@@ -421,6 +421,45 @@ const UpdatePatientFile = async ( req , res ) => {
             message : error 
         } ) ;
     }
+} 
+
+
+const updateStatePatient = async (req, res) => {
+
+    try {
+
+        let response = { action: true, message: 'ok' };
+
+        let rutUser = req.param('rutUser');
+        let rutPatient = req.param('rutPatient')
+
+
+        if (rutUser === undefined || !rutUser) {
+            response.message = 'Rut usuario vacio';
+            response.action = false;
+            res.send(response);
+            return false;
+
+        }
+
+        if (rutPatient === undefined || !rutPatient) {
+            response.message = 'rut paciente vacio';
+            response.action = false;
+            res.send(response);
+            return false;
+        }
+        
+        const responseData = await updatePatientStateModel(rutPatient);
+        res.send(responseData);
+
+    } catch (error) {
+        res.send({
+            action: false,
+            message: error,
+            data: {}
+        });
+    }
+
 }
 
 module.exports = {

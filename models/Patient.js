@@ -144,6 +144,13 @@ const SearchPatientsUsers = async ( rutUser , value , field = 'rut_paciente' )  
     const result = await QueryExec( query ) ;
     return ( result.length > 0 ) ? result : [] ;
 }
+
+const updatePatientStateModel = async rut =>{
+    rut = rut.replace( '-' , '' ) ;
+    const query = `UPDATE pacientes SET estado = 0 WHERE rut = '${data.rutPatient}'`;
+    const result = await QueryExec(query);
+    return result;
+}
                     
 
 module.exports = {
@@ -160,5 +167,6 @@ module.exports = {
     ValidatePatientExistByUser ,
     UpdatePatient,
     UpdateFile ,
-    SearchPatientsUsers
+    SearchPatientsUsers ,
+    updatePatientStateModel
 }

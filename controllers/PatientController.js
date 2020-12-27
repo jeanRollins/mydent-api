@@ -448,7 +448,7 @@ const updateStatePatient = async (req, res) => {
             res.send(response);
             return false;
         }
-        
+
         const responseData = await updatePatientStateModel(rutPatient);
         res.send(responseData);
 
@@ -469,5 +469,6 @@ module.exports = {
     GetForecastsData ,
     ValidatePatientExistByUserData ,
     UpdatePatientFile ,
-    SearchPatients
+    SearchPatients ,
+    updateStatePatient
 }

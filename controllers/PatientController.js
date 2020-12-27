@@ -451,7 +451,7 @@ const updateStatePatient = async (req, res) => {
         }
         console.log('response****************' )
         const responseData = await updatePatientStateModel(rutPatient);
-        res.send(responseData);
+        res.send(response);
 
     } catch (error) {
         res.send({

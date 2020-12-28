@@ -140,9 +140,10 @@ const SearchPatientsUsers = async ( rutUser , value , field = 'rut_paciente' )  
                     INNER JOIN pacientes p ON p.rut = up.rut_paciente 
                     INNER JOIN pacientes_ficha pf ON pf.rut = up.rut_paciente 
                     INNER JOIN prevision pr ON p.prevision = pr.id
-                    WHERE 
-                    up.rut_usuario = '${ rutUser }' AND
-                    up.${ field } LIKE '%${ value }%'` ;
+                    WHERE  
+                    up.rut_usuario = '${ rutUser }'   
+                    AND up.${ field } LIKE '%${ value }%'  
+                    AND   p.estado = 1 ` ;
     const result = await QueryExec( query ) ;
     return ( result.length > 0 ) ? result : [] ;
 }

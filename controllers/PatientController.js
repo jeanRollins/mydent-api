@@ -449,7 +449,6 @@ const updateStatePatient = async (req, res) => {
             res.send(response);
             return false;
         }
-        console.log('response****************' )
         const responseData = await updatePatientStateModel(rutPatient);
         res.send(response);
 

@@ -81,7 +81,12 @@ const GetPatientHistory = async ( req , res ) => {
         }
   
         data =  data.map( row =>  {
-            row.historial = decrypt( row.historial ) ;
+            try{
+                row.historial = decrypt( row.historial ) ;
+            }
+            catch(error){
+                row.historial = 'Problema con historial' ;
+            }
             return row ;
         }) ;
 

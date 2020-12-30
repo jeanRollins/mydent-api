@@ -18,9 +18,25 @@ const GetItems = async rut  => {
     return result ;
 }
 
+const GetTratamientByUser  = async rut  => {
+
+    const query = ` SELECT 
+                    pt.id as id_presupuesto, pt.valor, pt.rut_usuario, pt.id_tratamiento, 
+                    et.id as id_tratamiento, et.class, et.codigo as codigo_tratamiento, et.nombre as nombre_tratamiento, et.type as tipo_tratamiento,
+                    e.id  as id_especialidad, e.name as nombre_especialidad, e.codigo as codigo_especialidad 
+                    FROM presupuestos_tratamientos pt 
+                    INNER JOIN  especialidades_tratamiento et ON et.id = pt.id_tratamiento
+                    INNER JOIN  especialidades e ON e.id = et.id_especialidad
+                    WHERE pt.rut_usuario = '${ rut }' ` ;
+
+    const result = await QueryExec( query ) ;
+    return result ;
+}
+
 
 module.exports = {
     AddItem , 
     DeleteItem , 
-    GetItems
+    GetItems , 
+    GetTratamientByUser
 }

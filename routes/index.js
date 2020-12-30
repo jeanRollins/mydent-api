@@ -7,7 +7,7 @@ const { validateRutExist, validateEmailExist, createUser, VerifyMail }  = requir
 const { GetSpecialtyData }  = require('../controllers/SpecialtyController') ;
 
 const { home , authorize , validToken  }  = require('../controllers/LoginController') ;
-const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget }  = require('../controllers/BudgetController') ;
+const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget , GetItemsTratamientsByUser}  = require('../controllers/BudgetController') ;
 
 const { addDocument, getDocuments, DestroyDocument }  = require('../controllers/ManagerDocumentController') ;
 
@@ -43,6 +43,7 @@ router.get( '/specialty/GetSpecialty' ,  GetSpecialtyData ) ;
 router.post( '/api/budget/AddItemBudget' ,  AddItemBudget ) ;
 router.post( '/api/budget/DeleteItemBudget' ,  DeleteItemBudget ) ;
 router.post( '/api/budget/GetItemsBudget' ,  GetItemsBudget ) ;
+router.post( '/api/budget/GetItemsTratamientsByUser' ,  GetItemsTratamientsByUser ) ;
 
 
 //ManagerDocumentController

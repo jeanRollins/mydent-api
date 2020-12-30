@@ -1,4 +1,4 @@
-const { AddItem, DeleteItem , GetItems} = require("../models/Budget");
+const { AddItem, DeleteItem , GetItems , GetTratamientByUser} = require("../models/Budget");
 
 const AddItemBudget = async ( req , res ) => {
     
@@ -73,8 +73,35 @@ const GetItemsBudget = async ( req , res ) => {
     }
 };
 
+
+const GetItemsTratamientsByUser = async ( req , res ) => {
+    
+    let response = { message : 'ok' , action : true } ;
+
+    const rutUser = req.param('rutUser')  ;
+   
+    try {
+
+        if ( !rutUser || rutUser == undefined )  {
+            response.message = 'rutUser required.' ;
+            response.data = [] ;
+            response.action = false ;
+            res.send( response ) ;
+            return  false ;
+        }
+
+        const items = await GetTratamientByUser( rutUser ) ;
+        response.data = items ;
+        res.send( response ) ;
+    } 
+    catch (error) {
+        res.send( { action : false , message : error, data : [] } ) ;
+    }
+};
+
 module.exports = {
     AddItemBudget ,
     DeleteItemBudget ,
-    GetItemsBudget
+    GetItemsBudget ,
+    GetItemsTratamientsByUser
 }

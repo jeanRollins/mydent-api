@@ -1,4 +1,15 @@
-const { AddItem, DeleteItem , GetItems , GetTratamientByUser  ,CreateBudget , AddItemsBudget, UpdateStateBudget , GetItemsByPatient, GetBudgetByPatient } = require("../models/Budget");
+const { 
+        AddItem, 
+        DeleteItem , 
+        GetItems , 
+        GetTratamientByUser  ,
+        CreateBudget , 
+        AddItemsBudget, 
+        UpdateStateBudget , 
+        GetItemsByPatient, 
+        GetBudgetByPatient ,
+        UpdateStateBudgetItem 
+    } = require("../models/Budget");
 
 const AddItemBudget = async ( req , res ) => {
     
@@ -200,6 +211,34 @@ const GetBudgetsFull = async ( req , res ) => {
     res.send( response ) ;
 } ;
 
+const UpdateStateItem = async ( req , res ) => {
+
+    let response = { message : 'ok' , action : true } ;
+    const { idItem } = req.body ;  
+
+    if ( !idItem || idItem == undefined )  {
+        response.message = 'idItem required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  false ;
+    }
+    
+    try {
+
+        const responseUpdate =  await UpdateStateBudgetItem( idItem , 2 ) ;   
+        res.send( response ) ;
+
+    } 
+    catch (error) {
+        res.send( { action : false , message : error } ) ;
+    }
+    
+} ;
+
+
+
+
+
 
 
 module.exports = {
@@ -209,5 +248,6 @@ module.exports = {
     GetItemsTratamientsByUser ,
     CreateBudgetByUser ,
     GetItemsBudgetFull ,
-    GetBudgetsFull
+    GetBudgetsFull ,
+    UpdateStateItem
 }

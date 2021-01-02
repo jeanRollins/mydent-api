@@ -7,7 +7,7 @@ const { validateRutExist, validateEmailExist, createUser, VerifyMail }  = requir
 const { GetSpecialtyData }  = require('../controllers/SpecialtyController') ;
 
 const { home , authorize , validToken  }  = require('../controllers/LoginController') ;
-const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget , GetItemsTratamientsByUser, CreateBudgetByUser , GetItemsBudgetFull, GetBudgetsFull}  = require('../controllers/BudgetController') ;
+const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget , GetItemsTratamientsByUser, CreateBudgetByUser , GetItemsBudgetFull, GetBudgetsFull ,UpdateStateItem}  = require('../controllers/BudgetController') ;
 
 const { addDocument, getDocuments, DestroyDocument }  = require('../controllers/ManagerDocumentController') ;
 
@@ -47,6 +47,7 @@ router.post( '/api/budget/GetItemsTratamientsByUser' ,  GetItemsTratamientsByUse
 router.post( '/api/budget/CreateBudgetByUser', CreateBudgetByUser ) ;
 router.post( '/api/budget/GetItemsBudgetFull', GetItemsBudgetFull ) ;
 router.post( '/api/budget/GetBudgetsFull', GetBudgetsFull ) ;
+router.post( '/api/budget/UpdateStateItem', UpdateStateItem ) ;
 
 //ManagerDocumentController
 router.post( '/api/managerDocument/AddDocument' , upload.single( 'imgFile' ) ,  addDocument ) ;

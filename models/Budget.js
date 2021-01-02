@@ -103,6 +103,11 @@ const GetBudgetByPatient = async ( rutUser , rutPatient ) => {
     const result = await QueryExec( query ) ;
     return result ;
 }
+const UpdateStateBudgetItem = async  ( idItem, state  )  => {
+    const query = `UPDATE presupuestos_item SET  estado = ${state} WHERE id = ${idItem}` ;
+    const result = await QueryExec( query ) ;
+    return result ;
+}
 
 module.exports = {
     AddItem , 
@@ -114,5 +119,6 @@ module.exports = {
     AddItemsBudget ,
     UpdateStateBudget ,
     GetItemsByPatient ,
-    GetBudgetByPatient
+    GetBudgetByPatient ,
+    UpdateStateBudgetItem
 }

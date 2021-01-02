@@ -1,4 +1,4 @@
-const { AddItem, DeleteItem , GetItems , GetTratamientByUser} = require("../models/Budget");
+const { AddItem, DeleteItem , GetItems , GetTratamientByUser  ,CreateBudget , AddItemsBudget, UpdateStateBudget , GetItemsByPatient, GetBudgetByPatient } = require("../models/Budget");
 
 const AddItemBudget = async ( req , res ) => {
     
@@ -99,9 +99,115 @@ const GetItemsTratamientsByUser = async ( req , res ) => {
     }
 };
 
+const CreateBudgetByUser =  async ( req , res ) => {
+    
+    let response = { message : 'Item add ok' , action : true } ;
+
+    const { rutPatient , rutUser, items } = req.body ;  
+
+    if ( !rutPatient || rutPatient == undefined )  {
+        response.message = 'rutPatient required.' ;
+        response.action = false ;
+    };   
+
+    if ( !rutUser || rutUser == undefined )  {
+        response.message = 'rutUser required.' ;
+        response.action = false ;
+    };   
+
+    if ( !Array.isArray( items ) || items == undefined )  {
+        response.message = 'Items is type array required.' ;
+        response.action = false ;
+    };
+
+    try {
+        const responseAdd = await CreateBudget( rutUser, rutPatient ) ; 
+        console.log( 'responseAdd' , responseAdd) ;
+
+        if( !responseAdd ){
+            response.message = 'Problem to insert' ;
+            response.action = false ;
+            res.send( response ) ;
+            return ;
+        }
+
+        const responseAddItems = await AddItemsBudget( responseAdd , items ) ; 
+        
+        if( !responseAddItems ){
+            response.message = 'Problem to insert items' ;
+            response.action = false ;
+            res.send( response ) ;
+            return ;
+        }
+
+        const resp = await UpdateStateBudget( responseAdd , 1 ) ;
+        res.send( response ) ;
+
+    } catch ( error ) {
+        res.send( { action : false , message : error } ) ;
+    }
+  
+};
+
+const GetItemsBudgetFull = async ( req , res ) => {
+
+    let response = { message : 'ok' , action : true } ;
+
+    const { rutPatient , rutUser } = req.body ;  
+
+    if ( !rutUser || rutUser == undefined )  {
+        response.message = 'rutUser required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  false ;
+    }
+
+    if ( !rutPatient || rutPatient == undefined )  {
+        response.message = 'rutPatient required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  false ;
+    }
+
+
+    const itemFounded = await GetItemsByPatient( rutUser , rutPatient ) ;
+    response.data = itemFounded ; 
+    res.send( response ) ;
+} ;
+
+const GetBudgetsFull = async ( req , res ) => {
+
+    let response = { message : 'ok' , action : true } ;
+    const { rutPatient , rutUser } = req.body ;  
+
+    if ( !rutUser || rutUser == undefined )  {
+        response.message = 'rutUser required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  false ;
+    }
+
+    if ( !rutPatient || rutPatient == undefined )  {
+        response.message = 'rutPatient required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  false ;
+    }
+
+
+    const itemFounded = await GetBudgetByPatient( rutUser , rutPatient ) ;
+    response.data = itemFounded ; 
+    res.send( response ) ;
+} ;
+
+
+
 module.exports = {
     AddItemBudget ,
     DeleteItemBudget ,
     GetItemsBudget ,
-    GetItemsTratamientsByUser
+    GetItemsTratamientsByUser ,
+    CreateBudgetByUser ,
+    GetItemsBudgetFull ,
+    GetBudgetsFull
 }

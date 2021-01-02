@@ -68,7 +68,7 @@ const UpdateStateBudget = async  ( idBudget, state  )  => {
     return result ;
 }
 
-const GetItemsByPatient = async ( id , rutUser , rutPatient ) => {
+const GetItemsByPatient = async ( id , rutUser  ) => {
     const query = `SELECT 
                     p.id as id_budget, p.rut_paciente , p.rut_usuario , p.fecha_creacion as create_budget, p.estado as state_budget ,
                     pi.diente as tooth, pi.cara as face_tooth, pi.id_tratamiento as id_tratament, pi.fecha_realizado as date_completed , pi.estado as state_tratament ,
@@ -82,8 +82,7 @@ const GetItemsByPatient = async ( id , rutUser , rutPatient ) => {
                     INNER JOIN pacientes pat 				  ON pat.rut = p.rut_paciente
                     INNER JOIN prevision pre				  ON pre.id  = pat.prevision
                     INNER JOIN especialidades_tratamiento et  ON et.id   = pt.id_tratamiento
-                    WHERE pat.rut = '${ rutPatient}'
-                    AND   p.rut_usuario = '${ rutUser }'
+                    WHERE   p.rut_usuario = '${ rutUser }'
                     AND   p.id = '${ id }'` ;
 
     const result = await QueryExec( query ) ;

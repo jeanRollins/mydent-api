@@ -104,7 +104,7 @@ const GetBudgetByPatient = async ( rutUser , rutPatient ) => {
     return result ;
 }
 const UpdateStateBudgetItem = async  ( idItem, state  )  => {
-    const query = `UPDATE presupuestos_item SET  estado = ${state} WHERE id = ${idItem}` ;
+    const query = `UPDATE presupuestos_item SET  estado = ${state}, fecha_realizado = now() WHERE id = ${idItem}` ;
     const result = await QueryExec( query ) ;
     return result ;
 }

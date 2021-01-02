@@ -91,7 +91,7 @@ const GetItemsByPatient = async ( rutUser , rutPatient ) => {
 
 const GetBudgetByPatient = async ( rutUser , rutPatient ) => {
     const query = `SELECT 
-                    p.id as id_budget, p.rut_paciente , p.rut_usuario , p.fecha_creacion as create_budget, p.estado as state_budget , 
+                    p.id as id_budget, p.rut_paciente , p.rut_usuario , CONCAT( DATE_FORMAT( p.fecha_creacion, '01-%m-%Y' ) , ' ' , DATE_FORMAT( p.fecha_creacion, '%H:%i:%s' ) ) as create_budget, p.estado as state_budget , 
                     CONCAT( pat.nombres , ' ' , pat.apellido_paterno, ' ', pat.apellido_materno ) as name , DATE_FORMAT( pat.fecha_nacimiento ,'01-%m-%Y') as born , pat.prevision as prevision_id, 
                     pre.name as name_prevision 
                     FROM presupuestos p 

@@ -153,10 +153,17 @@ const GetItemsBudgetFull = async ( req , res ) => {
 
     let response = { message : 'ok' , action : true } ;
 
-    const { rutPatient , rutUser } = req.body ;  
+    const { id ,rutPatient , rutUser } = req.body ;  
 
     if ( !rutUser || rutUser == undefined )  {
         response.message = 'rutUser required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  false ;
+    }
+
+    if ( !id || id == undefined )  {
+        response.message = 'id required.' ;
         response.action = false ;
         res.send( response ) ;
         return  false ;
@@ -170,7 +177,7 @@ const GetItemsBudgetFull = async ( req , res ) => {
     }
 
 
-    const itemFounded = await GetItemsByPatient( rutUser , rutPatient ) ;
+    const itemFounded = await GetItemsByPatient( id, rutUser , rutPatient ) ;
     response.data = itemFounded ; 
     res.send( response ) ;
 } ;

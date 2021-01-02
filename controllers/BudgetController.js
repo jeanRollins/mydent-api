@@ -152,6 +152,7 @@ const CreateBudgetByUser =  async ( req , res ) => {
         }
 
         const resp = await UpdateStateBudget( responseAdd , 1 ) ;
+        response.data = responseAdd ;
         res.send( response ) ;
 
     } catch ( error ) {
@@ -222,7 +223,7 @@ const UpdateStateItem = async ( req , res ) => {
         res.send( response ) ;
         return  false ;
     }
-    
+
     try {
 
         const responseUpdate =  await UpdateStateBudgetItem( idItem , 2 ) ;   

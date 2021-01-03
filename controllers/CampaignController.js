@@ -1,4 +1,4 @@
-const { Add, GetCampaignsByUser } = require("../models/Campaign");
+const { Add, GetCampaignsByUser, AddItem } = require("../models/Campaign");
 
 const AddCampaign = async ( req , res ) => {
     
@@ -82,7 +82,49 @@ const GetCampaigns = async ( req , res ) => {
     }
 };
 
+const AddItemCampaigns = async ( req , res ) => {
+    
+    let response = { message : 'ok' , action : true } ;
+
+    const { idCampaign, items } = req.body  ;
+
+    if ( !idCampaign || idCampaign == undefined )  {
+        response.message = 'idCampaign required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  ;
+    }
+
+    if ( !Array.isArray( items ) || items == undefined )  {
+        response.message = 'Items is type array required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  ;
+    };
+    
+    try {
+
+        const responseAdd = await AddItem( idCampaign , items ) ;
+
+        if( responseAdd === true ){
+
+            res.send( response ) ;
+        }
+        else {
+            response.message = 'Error to inserts mails' ;
+            response.action = false ;
+            res.send( response ) ;
+        }
+    } 
+    catch (error) {
+        res.send( { action : false , message : error } ) ;
+    }
+};
+
+
+
 module.exports = {
     AddCampaign ,
-    GetCampaigns
+    GetCampaigns ,
+    AddItemCampaigns 
 } ;

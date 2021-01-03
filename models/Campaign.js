@@ -33,8 +33,27 @@ const GetCampaignsByUser  =  async rutUser  =>  {
     return result ;
 };
 
+const  AddCampaignItem  =  async ( idCampaign, rutPatient )  =>  {
+    const query  = `INSERT INTO campanas_pacientes 
+                    ( id_campana, rut_paciente, fecha_creacion, estado, fecha_envio) 
+                    VALUES 
+                    ( ${ idCampaign }, '${ rutPatient }', now(), 1 , '' )` ;
+    const  result  =  await QueryExec( query ) ;
+    const  lastId  =  await GetLastId() ;
+    return lastId[0].lastId ;
+}
+
+const  AddItem  =  async ( idCampaign , items )  =>  {  
+  
+    for ( let item of items ) {
+        const response  = await AddCampaignItem( idCampaign, item ) ;
+    }; 
+    return true ;
+}
+
 module.exports = {
     Add,
     AddCampaignPatients ,
-    GetCampaignsByUser
+    GetCampaignsByUser ,
+    AddItem
 } ;

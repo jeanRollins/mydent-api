@@ -1,5 +1,6 @@
 const axios = require('axios');
-const {RuteAppMydent} = require('../libs/Commons')
+const {RuteAppMydent} = require('../libs/Commons') ;
+
 const url = 'https://service-mail.herokuapp.com/sendMail' ;
 
 const from = "correo.mydent@gmail.com <foo@example.com>" ;
@@ -14,7 +15,6 @@ const bodyMailWelcome = ( name , link )  => /*html*/`
 `;
 
 const sendMailWelcome = async data  => {
-    console.log('data' , data);
     
     const bodyMessage =  await  bodyMailWelcome( data.name , data.link ) ;
     const message     =  await  getBodyMessageEmail( data.email , 'Bienvenido a Mydent' , bodyMessage ) ; 
@@ -24,10 +24,15 @@ const sendMailWelcome = async data  => {
     return ( status == 200 )  ;
 }
 
+const sendMailToPatient = async ( email , subject,  body ) => {
+    const message     =  getBodyMessageEmail( email, subject, body ) ; 
+    const status      =  await  sendMail( url , message ) ; 
+    return ( status == 200 )  ;
+}
+
 
 const sendMail = async  ( url , message ) => {
     const response = await axios.post( url , message ) ;
-    console.log('mailresponse**' , response.data);
     return response.status ; 
 } 
 
@@ -41,4 +46,4 @@ const getBodyMessageEmail = ( to , subject , html ) => {
     }
 }
 
-module.exports = { sendMailWelcome } ;
+module.exports = { sendMailWelcome, sendMailToPatient } ;

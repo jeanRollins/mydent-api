@@ -33,6 +33,18 @@ const GetCampaignsByUser  =  async rutUser  =>  {
     return result ;
 };
 
+const GetCampaignByUser = async ( idCampaign , rutUser ) =>  {
+    const query  = `SELECT 
+                    c.* , ce.nombre as nombre_campana 
+                    FROM campanas c 
+                    INNER JOIN campanas_estado ce ON c.estado = ce.id
+                    WHERE c.rut_usuario = '${ rutUser }'
+                    AND  c.id = ${ idCampaign }
+                    ORDER BY c.fecha_creado DESC` ;
+    const  result  =  await QueryExec( query ) ;
+    return result ;
+};
+
 const  AddCampaignItem  =  async ( idCampaign, rutPatient )  =>  {
     const query  = `INSERT INTO campanas_pacientes 
                     ( id_campana, rut_paciente, fecha_creacion, estado, fecha_envio) 
@@ -51,9 +63,18 @@ const  AddItem  =  async ( idCampaign , items )  =>  {
     return true ;
 }
 
+const UpdateStateCampaign = async  ( idCampaign, state ) => {
+    const query = `UPDATE campanas  SET estado = ${state}, fecha_lanzamiento = now() WHERE id = ${idCampaign}` ;
+    const result = await QueryExec( query ) ;
+    return result ;
+}
+
+
 module.exports = {
     Add,
     AddCampaignPatients ,
     GetCampaignsByUser ,
-    AddItem
+    AddItem ,
+    GetCampaignByUser ,
+    UpdateStateCampaign
 } ;

@@ -1,4 +1,4 @@
-const { Add, GetCampaignsByUser, AddItem } = require("../models/Campaign");
+const { Add, GetCampaignsByUser, AddItem , GetCampaignByUser, UpdateStateCampaign} = require("../models/Campaign");
 
 const AddCampaign = async ( req , res ) => {
     
@@ -107,7 +107,7 @@ const AddItemCampaigns = async ( req , res ) => {
         const responseAdd = await AddItem( idCampaign , items ) ;
 
         if( responseAdd === true ){
-
+            UpdateStateCampaign( idCampaign, 2 ) ;
             res.send( response ) ;
         }
         else {
@@ -121,10 +121,41 @@ const AddItemCampaigns = async ( req , res ) => {
     }
 };
 
+const GetCampaign = async ( req , res ) => {
+    
+    let response = { message : 'ok' , action : true } ;
+
+    const { rutUser, idCampaign } = req.body  ;
+
+    if ( !rutUser || rutUser == undefined )  {
+        response.message = 'rutUser required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  ;
+    }  
+    
+    if ( !idCampaign || idCampaign == undefined )  {
+        response.message = 'idCampaign required.' ;
+        response.action = false ;
+        res.send( response ) ;
+        return  ;
+    }  
+
+    try {
+
+        const campaignsFounded = await GetCampaignByUser( idCampaign , rutUser ) ;
+        response.data = campaignsFounded ;
+        res.send( response )
+    } 
+    catch (error) {
+        res.send( { action : false , message : error , data : [] } ) ;
+    }
+};
 
 
 module.exports = {
     AddCampaign ,
     GetCampaigns ,
-    AddItemCampaigns 
+    AddItemCampaigns ,
+    GetCampaign
 } ;

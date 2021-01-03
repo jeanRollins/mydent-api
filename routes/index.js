@@ -18,7 +18,7 @@ const { GetPatientHistory, AddHistoryPatient } = require('../controllers/History
 
 
 const { AddTime ,GetTimes , ChangeStatusTime} = require('../controllers/TimeController');
-const { AddCampaign , GetCampaigns, AddItemCampaigns } = require('../controllers/CampaignController');
+const { AddCampaign , GetCampaigns, AddItemCampaigns , GetCampaign } = require('../controllers/CampaignController');
 
 
 router.use( index ) ;
@@ -80,5 +80,6 @@ router.post( '/api/time/ChangeStatusTime', ChangeStatusTime ) ;
 router.post( '/api/campaign/AddCampaign', AddCampaign ) ;
 router.post( '/api/campaign/GetCampaigns', GetCampaigns ) ;
 router.post( '/api/campaign/AddItemCampaigns', AddItemCampaigns ) ;
+router.post( '/api/campaign/GetCampaign', GetCampaign ) ;
 
 module.exports = router ;

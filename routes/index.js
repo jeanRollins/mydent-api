@@ -20,6 +20,10 @@ const { GetPatientHistory, AddHistoryPatient } = require('../controllers/History
 const { AddTime ,GetTimes , ChangeStatusTime} = require('../controllers/TimeController');
 const { AddCampaign , GetCampaigns, AddItemCampaigns , GetCampaign } = require('../controllers/CampaignController');
 
+const { SendMail } = require('../controllers/CronController');
+
+
+
 
 router.use( index ) ;
 
@@ -81,5 +85,8 @@ router.post( '/api/campaign/AddCampaign', AddCampaign ) ;
 router.post( '/api/campaign/GetCampaigns', GetCampaigns ) ;
 router.post( '/api/campaign/AddItemCampaigns', AddItemCampaigns ) ;
 router.post( '/api/campaign/GetCampaign', GetCampaign ) ;
+
+//CronController
+router.get( '/api/cron/SendMail', SendMail ) ;
 
 module.exports = router ;

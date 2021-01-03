@@ -24,10 +24,10 @@ const sendMailWelcome = async data  => {
     return ( status == 200 )  ;
 }
 
-const sendMailToPatient = async ( email , subject,  body ) => {
+const send = async ( email , subject,  body ) => {
     const message     =  getBodyMessageEmail( email, subject, body ) ; 
     const status      =  await  sendMail( url , message ) ; 
-    return ( status == 200 )  ;
+    return ( status === 200 )  ;
 }
 
 
@@ -46,4 +46,4 @@ const getBodyMessageEmail = ( to , subject , html ) => {
     }
 }
 
-module.exports = { sendMailWelcome, sendMailToPatient } ;
+module.exports = { sendMailWelcome, send } ;

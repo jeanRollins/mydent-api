@@ -69,6 +69,29 @@ const UpdateStateCampaign = async  ( idCampaign, state ) => {
     return result ;
 }
 
+const UpdateStateItem = async  ( idItem, state ) => {
+    const query = `UPDATE campanas_pacientes  SET estado = ${state}, fecha_envio = now() WHERE id = ${idItem}` ;
+    const result = await QueryExec( query ) ;
+    return result ;
+}
+
+const GetCampaignAndItems = async () => {
+    const query = ` SELECT 
+                    c.rut_usuario as rut_user, c.id as id_campaign, c.estado as state_campaign, c.body as body, c.nombre as name_campaign,
+                    cp.rut_paciente as rut_patient, cp.estado as state_item, cp.id as id_item, cp.fecha_creacion as item_created,
+                    p.correo as email
+                    FROM campanas c 
+                    INNER JOIN campanas_pacientes cp ON  cp.id_campana   = c.id 
+                    INNER JOIN pacientes p			 ON  cp.rut_paciente = p.rut
+                    WHERE c.estado = 2 
+                    AND cp.estado  = 1
+                    ORDER BY c.fecha_creado ASC
+                    LIMIT 0, 10` ;
+
+    const result = await QueryExec( query ) ;
+    return result ;
+}
+
 
 module.exports = {
     Add,
@@ -76,5 +99,7 @@ module.exports = {
     GetCampaignsByUser ,
     AddItem ,
     GetCampaignByUser ,
-    UpdateStateCampaign
+    UpdateStateCampaign ,
+    GetCampaignAndItems ,
+    UpdateStateItem
 } ;

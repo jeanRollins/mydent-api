@@ -20,13 +20,9 @@ const SendMail = async ( req , res ) => {
             const idItem   = item.id_item ;
 
             const responseSend = await send( email, subject, body ) ;
-
-            console.log( 'responseSend' , responseSend ) ;
-            
             if( !responseSend ){
                 await UpdateStateItem( idItem , -1 ) ;
             }
-
             await UpdateStateItem( idItem , 2 ) ;
         }
 

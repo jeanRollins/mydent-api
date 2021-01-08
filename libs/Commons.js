@@ -13,6 +13,8 @@ const generateString =  stringlength  => {
 }
 
 const generateToken = () => 'TOKEN_' + generateString( 50 ) ;
+const generateTokenAccess = () => 'ACCESS_' + generateString( 50 ) ;
+
 
 const generateMailVerification = () => 'MAIL_' + generateString( 44 ) ;
 
@@ -44,5 +46,6 @@ module.exports = {
 	generateMailVerification ,
 	RuteAppMydent ,
 	ValidateEmailFormat ,
-	ValidateRutFormat
+    ValidateRutFormat ,
+    generateTokenAccess
 }

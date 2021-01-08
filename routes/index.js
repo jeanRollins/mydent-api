@@ -1,7 +1,18 @@
 const { Router } = require('express');
 const router = Router();
-const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const multer = require('multer');
+const path = require('path');
+//const upload = multer({ dest: 'uploads/' }) ;
+
+
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'uploads/'),
+    filename: (req, file, cb) => {
+        console.log('file***', file);
+
+        cb(null, new Date().getTime() + path.extname( file.originalname ) ) ;
+    }
+}) 
 
 const { validateRutExist, validateEmailExist, createUser, VerifyMail }  = require('../controllers/UsersController') ;
 const { GetSpecialtyData }  = require('../controllers/SpecialtyController') ;
@@ -22,10 +33,14 @@ const { AddCampaign , GetCampaigns, AddItemCampaigns , GetCampaign } = require('
 
 const { SendMail } = require('../controllers/CronController');
 
+const { AddDicomFile , GetFilesDicomByPatient , DeleteDicom } = require('../controllers/DicomController');
+
 
 
 
 router.use( index ) ;
+router.use( multer({storage}).single('fileDicom') ) ;
+
 
 //LoginController
 router.get( '/' ,  home ) ;
@@ -54,7 +69,7 @@ router.post( '/api/budget/GetBudgetsFull', GetBudgetsFull ) ;
 router.post( '/api/budget/UpdateStateItem', UpdateStateItem ) ;
 
 //ManagerDocumentController
-router.post( '/api/managerDocument/AddDocument' , upload.single( 'imgFile' ) ,  addDocument ) ;
+router.post( '/api/managerDocument/AddDocument' ,  addDocument ) ;
 
 //PatientController
 router.post( '/api/patient/GetPatient' ,  GetPatient ) ;
@@ -88,5 +103,10 @@ router.post( '/api/campaign/GetCampaign', GetCampaign ) ;
 
 //CronController
 router.get( '/api/cron/SendMail', SendMail ) ;
+
+//DicomController
+router.post( '/api/dicom/AddFile' , AddDicomFile ) ;
+router.post( '/api/dicom/GetFilesDicomByPatient' , GetFilesDicomByPatient ) ;
+router.post( '/api/dicom/DeleteDicom' , DeleteDicom ) ;
 
 module.exports = router ;

@@ -22,16 +22,15 @@ var QueryExec = function QueryExec(sql) {
         case 0:
           sql = sql.replace(/(\r\n\t|\n|\r\t)/, "");
           sql = sql.replace('\n', "");
-          sql = sql.replace("'", " ");
-          _context.next = 5;
+          _context.next = 4;
           return regeneratorRuntime.awrap(query(sql));
 
-        case 5:
+        case 4:
           result = _context.sent;
           response = Object.values(JSON.parse(JSON.stringify(result)));
           return _context.abrupt("return", response);
 
-        case 8:
+        case 7:
         case "end":
           return _context.stop();
       }

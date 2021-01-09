@@ -47,7 +47,7 @@ var GetFileByPatient = function GetFileByPatient(rutUser, rutPatient) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          query = " SELECT id , rut_usuario, rut_paciente, url, titulo, descripcion, token ,\n                    CONCAT( DATE_FORMAT( date, '%d-%m-%Y' ) ) as date_created ,\n                    CONCAT( DATE_FORMAT( date, '%H:%i:%s' ) ) as time_created     \n                    FROM dicom \n                    WHERE rut_usuario = '".concat(rutUser, "' \n                    AND  rut_paciente = '").concat(rutPatient, "'");
+          query = " \n                    SELECT  id , rut_usuario, rut_paciente, url, titulo, descripcion, token ,\n                    CONCAT( DATE_FORMAT( date, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( date, '%H:%i:%s' ) ) as created \n                    FROM dicom \n                    WHERE rut_usuario = '".concat(rutUser, "' \n                    AND  rut_paciente = '").concat(rutPatient, "'");
           _context2.next = 3;
           return regeneratorRuntime.awrap(QueryExec(query));
 

@@ -15,9 +15,9 @@ const AddDicom = async  ( rutUser , rutPatient , url, title, description )  => {
 }
 
 const GetFileByPatient = async  ( rutUser , rutPatient )  => {
-    const query = ` SELECT id , rut_usuario, rut_paciente, url, titulo, descripcion, token ,
-                    CONCAT( DATE_FORMAT( date, '%d-%m-%Y' ) ) as date_created ,
-                    CONCAT( DATE_FORMAT( date, '%H:%i:%s' ) ) as time_created     
+    const query = ` 
+                    SELECT  id , rut_usuario, rut_paciente, url, titulo, descripcion, token ,
+                    CONCAT( DATE_FORMAT( date, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( date, '%H:%i:%s' ) ) as created 
                     FROM dicom 
                     WHERE rut_usuario = '${rutUser}' 
                     AND  rut_paciente = '${rutPatient}'` ;

@@ -3,7 +3,8 @@
 var _require = require("../models/Dicom"),
     AddDicom = _require.AddDicom,
     GetFileByPatient = _require.GetFileByPatient,
-    DeleteFileDicom = _require.DeleteFileDicom;
+    DeleteFileDicom = _require.DeleteFileDicom,
+    GetDicomDataByPatient = _require.GetDicomDataByPatient;
 
 var AddDicomFile = function AddDicomFile(req, res) {
   var response, _req$body, rutUser, rutPatient, url, title, description, responseAdd;
@@ -224,8 +225,60 @@ var DeleteDicom = function DeleteDicom(req, res) {
   }, null, null, [[1, 14]]);
 };
 
+var GetFileDicom = function GetFileDicom(req, res) {
+  var response, token, fileFounded;
+  return regeneratorRuntime.async(function GetFileDicom$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          response = {
+            message: 'ok',
+            action: true
+          };
+          _context4.prev = 1;
+          token = req.body.token;
+
+          if (!(!token || token === undefined)) {
+            _context4.next = 8;
+            break;
+          }
+
+          response.message = 'token required.';
+          response.action = false;
+          res.send(response);
+          return _context4.abrupt("return", false);
+
+        case 8:
+          _context4.next = 10;
+          return regeneratorRuntime.awrap(GetDicomDataByPatient(token));
+
+        case 10:
+          fileFounded = _context4.sent;
+          response.data = fileFounded;
+          res.send(response);
+          _context4.next = 18;
+          break;
+
+        case 15:
+          _context4.prev = 15;
+          _context4.t0 = _context4["catch"](1);
+          res.send({
+            action: false,
+            message: _context4.t0,
+            data: []
+          });
+
+        case 18:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  }, null, null, [[1, 15]]);
+};
+
 module.exports = {
   AddDicomFile: AddDicomFile,
   GetFilesDicomByPatient: GetFilesDicomByPatient,
-  DeleteDicom: DeleteDicom
+  DeleteDicom: DeleteDicom,
+  GetFileDicom: GetFileDicom
 };

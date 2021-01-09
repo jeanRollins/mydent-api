@@ -47,7 +47,7 @@ var GetFileByPatient = function GetFileByPatient(rutUser, rutPatient) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          query = " \n                    SELECT  id , rut_usuario, rut_paciente, url, titulo, descripcion, token ,\n                    CONCAT( DATE_FORMAT( date, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( date, '%H:%i:%s' ) ) as created \n                    FROM dicom \n                    WHERE rut_usuario = '".concat(rutUser, "' \n                    AND  rut_paciente = '").concat(rutPatient, "'");
+          query = " SELECT  id , rut_usuario, rut_paciente, url, titulo, descripcion, token ,\n                    CONCAT( DATE_FORMAT( date, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( date, '%H:%i:%s' ) ) as created \n                    FROM dicom \n                    WHERE rut_usuario = '".concat(rutUser, "' \n                    AND  rut_paciente = '").concat(rutPatient, "'");
           _context2.next = 3;
           return regeneratorRuntime.awrap(QueryExec(query));
 
@@ -85,8 +85,31 @@ var DeleteFileDicom = function DeleteFileDicom(id) {
   });
 };
 
+var GetDicomDataByPatient = function GetDicomDataByPatient(token) {
+  var query, result;
+  return regeneratorRuntime.async(function GetDicomDataByPatient$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          query = " SELECT  \n                    d.id as id_dicom , d.rut_usuario as rut_user, d.rut_paciente as rut_patient, d.url, d.titulo as title, d.descripcion as description, d.token as token ,\n                    CONCAT( DATE_FORMAT( date, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( date, '%H:%i:%s' ) ) as file_created,\n                    CONCAT( p.nombres , ' ' , p.apellido_paterno, ' ' , p.apellido_materno ) as name, DATE_FORMAT( p.fecha_nacimiento, '%d-%m-%Y' ) as born\n                    FROM dicom d \n                    INNER JOIN pacientes p ON d.rut_paciente = p.rut\n                    WHERE d.token = '".concat(token, "'");
+          _context4.next = 3;
+          return regeneratorRuntime.awrap(QueryExec(query));
+
+        case 3:
+          result = _context4.sent;
+          return _context4.abrupt("return", result);
+
+        case 5:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  });
+};
+
 module.exports = {
   AddDicom: AddDicom,
   GetFileByPatient: GetFileByPatient,
-  DeleteFileDicom: DeleteFileDicom
+  DeleteFileDicom: DeleteFileDicom,
+  GetDicomDataByPatient: GetDicomDataByPatient
 };

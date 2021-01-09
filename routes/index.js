@@ -33,7 +33,7 @@ const { AddCampaign , GetCampaigns, AddItemCampaigns , GetCampaign } = require('
 
 const { SendMail } = require('../controllers/CronController');
 
-const { AddDicomFile , GetFilesDicomByPatient , DeleteDicom } = require('../controllers/DicomController');
+const { AddDicomFile , GetFilesDicomByPatient , DeleteDicom, GetFileDicom } = require('../controllers/DicomController');
 
 
 
@@ -108,5 +108,6 @@ router.get( '/api/cron/SendMail', SendMail ) ;
 router.post( '/api/dicom/AddFile' , AddDicomFile ) ;
 router.post( '/api/dicom/GetFilesDicomByPatient' , GetFilesDicomByPatient ) ;
 router.post( '/api/dicom/DeleteDicom' , DeleteDicom ) ;
+router.post( '/api/dicom/GetFileDicom' , GetFileDicom ) ;
 
 module.exports = router ;

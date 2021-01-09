@@ -1,4 +1,4 @@
-const { AddDicom , GetFileByPatient, DeleteFileDicom } = require("../models/Dicom");
+const { AddDicom , GetFileByPatient, DeleteFileDicom, GetDicomDataByPatient } = require("../models/Dicom");
 
 const AddDicomFile = async ( req , res ) => {
     
@@ -122,4 +122,33 @@ const DeleteDicom = async ( req , res ) => {
     }    
 }
 
-module.exports = { AddDicomFile, GetFilesDicomByPatient , DeleteDicom } ;
+const GetFileDicom = async ( req , res ) => {
+    
+    let response = { message : 'ok' , action : true } ;
+
+    try {
+
+        const { token }  = req.body ;
+
+        if ( !token || token === undefined ){
+            response.message = 'token required.';
+            response.action = false;
+            res.send( response ) ;
+            return false ;
+        }
+
+        const fileFounded = await GetDicomDataByPatient( token ) ;
+        response.data = fileFounded ;
+
+        res.send( response ) ;
+    } 
+    catch ( error ) {
+        res.send( { 
+            action: false ,
+            message : error , 
+            data : []
+        } ) 
+    }    
+}
+
+module.exports = { AddDicomFile, GetFilesDicomByPatient , DeleteDicom , GetFileDicom} ;

@@ -9,7 +9,12 @@ const AddDocumentModel = async document => {
 }
 
 const getAllDocumentByUserAndPacient = async ruts => {
-    const query = `SELECT * FROM documentos WHERE rut_usuario = '${ruts.rutUser}' AND rut_paciente = '${ruts.rutPacient}'`;
+    const query = ` SELECT 
+                    id , url , descripcion, tipo, rut_usuario, rut_paciente, nombre, 
+                    CONCAT( DATE_FORMAT( created, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( created, '%H:%i:%s' ) ) as created,
+                    FROM documentos 
+                    WHERE rut_usuario = '${ruts.rutUser}' 
+                    AND rut_paciente = '${ruts.rutPacient}'`;
     const result = await QueryExec(query);
     return result;
 }

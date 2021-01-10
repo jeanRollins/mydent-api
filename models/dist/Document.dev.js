@@ -30,7 +30,7 @@ var getAllDocumentByUserAndPacient = function getAllDocumentByUserAndPacient(rut
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          query = " SELECT \n                    id , url , descripcion, tipo, rut_usuario, rut_paciente, nombre, \n                    CONCAT( DATE_FORMAT( created, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( created, '%H:%i:%s' ) ) as created,\n                    FROM documentos \n                    WHERE rut_usuario = '".concat(ruts.rutUser, "' \n                    AND rut_paciente = '").concat(ruts.rutPacient, "'");
+          query = " SELECT \n                    id , url , descripcion, tipo, rut_usuario, rut_paciente, nombre, \n                    CONCAT( DATE_FORMAT( created, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( created, '%H:%i:%s' ) ) as created\n                    FROM documentos \n                    WHERE rut_usuario = '".concat(ruts.rutUser, "' \n                    AND rut_paciente = '").concat(ruts.rutPacient, "'");
           _context2.next = 3;
           return regeneratorRuntime.awrap(QueryExec(query));
 

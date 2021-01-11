@@ -70,10 +70,10 @@ const UpdateStateBudget = async  ( idBudget, state  )  => {
 
 const GetItemsByPatient = async ( id , rutUser  ) => {
     const query = `SELECT 
-                    p.id as id_budget, p.rut_paciente , p.rut_usuario , CONCAT( DATE_FORMAT( p.fecha_creacion, '01-%m-%Y' ) , ' ' , DATE_FORMAT( p.fecha_creacion, '%H:%i:%s' ) ) as create_budget, p.estado as state_budget ,
-                    pi.diente as tooth, pi.id as id_item, pi.cara as face_tooth, pi.id_tratamiento as id_tratament,  CONCAT( DATE_FORMAT( pi.fecha_realizado, '01-%m-%Y' ) , ' ' , DATE_FORMAT( pi.fecha_realizado, '%H:%i:%s' ) ) as date_completed , pi.estado as state_tratament ,
+                    p.id as id_budget, p.rut_paciente , p.rut_usuario , CONCAT( DATE_FORMAT( p.fecha_creacion, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( p.fecha_creacion, '%H:%i:%s' ) ) as create_budget, p.estado as state_budget ,
+                    pi.diente as tooth, pi.id as id_item, pi.cara as face_tooth, pi.id_tratamiento as id_tratament,  CONCAT( DATE_FORMAT( pi.fecha_realizado, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( pi.fecha_realizado, '%H:%i:%s' ) ) as date_completed , pi.estado as state_tratament ,
                     pt.valor as value_tratament ,
-                    CONCAT( pat.nombres , ' ' , pat.apellido_paterno, ' ', pat.apellido_materno ) as name ,  DATE_FORMAT( pat.fecha_nacimiento ,'01-%m-%Y')  as born , pat.prevision as prevision_id,
+                    CONCAT( pat.nombres , ' ' , pat.apellido_paterno, ' ', pat.apellido_materno ) as name ,  DATE_FORMAT( pat.fecha_nacimiento ,'%d-%m-%Y')  as born , pat.prevision as prevision_id,
                     pre.name as name_prevision , 
                     et.nombre as name_speciality, et.class as class_speciality, et.type as type_specialty 
                     FROM presupuestos p 
@@ -91,8 +91,8 @@ const GetItemsByPatient = async ( id , rutUser  ) => {
 
 const GetBudgetByPatient = async ( rutUser , rutPatient ) => {
     const query = `SELECT 
-                    p.id as id_budget, p.rut_paciente , p.rut_usuario , CONCAT( DATE_FORMAT( p.fecha_creacion, '01-%m-%Y' ) , ' ' , DATE_FORMAT( p.fecha_creacion, '%H:%i:%s' ) ) as create_budget, p.estado as state_budget , 
-                    CONCAT( pat.nombres , ' ' , pat.apellido_paterno, ' ', pat.apellido_materno ) as name , DATE_FORMAT( pat.fecha_nacimiento ,'01-%m-%Y') as born , pat.prevision as prevision_id, 
+                    p.id as id_budget, p.rut_paciente , p.rut_usuario , CONCAT( DATE_FORMAT( p.fecha_creacion, '%d-%m-%Y' ) , ' ' , DATE_FORMAT( p.fecha_creacion, '%H:%i:%s' ) ) as create_budget, p.estado as state_budget , 
+                    CONCAT( pat.nombres , ' ' , pat.apellido_paterno, ' ', pat.apellido_materno ) as name , DATE_FORMAT( pat.fecha_nacimiento ,'%d-%m-%Y') as born , pat.prevision as prevision_id, 
                     pre.name as name_prevision 
                     FROM presupuestos p 
                     INNER JOIN pacientes pat ON pat.rut = p.rut_paciente 

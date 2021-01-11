@@ -77,11 +77,11 @@ const GetItemsByPatient = async ( id , rutUser  ) => {
                     pre.name as name_prevision , 
                     et.nombre as name_speciality, et.class as class_speciality, et.type as type_specialty 
                     FROM presupuestos p 
-                    INNER JOIN presupuestos_item pi 		  ON p.id    = pi.id_prespuesto
-                    INNER JOIN presupuestos_tratamientos pt   ON pt.id   = pi.id_tratamiento
-                    INNER JOIN pacientes pat 				  ON pat.rut = p.rut_paciente
-                    INNER JOIN prevision pre				  ON pre.id  = pat.prevision
-                    INNER JOIN especialidades_tratamiento et  ON et.id   = pt.id_tratamiento
+                    LEFT JOIN presupuestos_item pi 		  ON p.id    = pi.id_prespuesto
+                    LEFT JOIN presupuestos_tratamientos pt   ON pt.id   = pi.id_tratamiento
+                    LEFT JOIN pacientes pat 				  ON pat.rut = p.rut_paciente
+                    LEFT JOIN prevision pre				  ON pre.id  = pat.prevision
+                    LEFT JOIN especialidades_tratamiento et  ON et.id   = pt.id_tratamiento
                     WHERE   p.rut_usuario = '${ rutUser }'
                     AND   p.id = '${ id }'` ;
 

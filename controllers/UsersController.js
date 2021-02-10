@@ -49,6 +49,8 @@ const validateEmailExist = async ( req , res ) => {
     }
 };
 
+
+
 const createUser = async ( req , res ) => {
     
     const email      = req.param('email') ;
@@ -207,8 +209,9 @@ const VerifyMail = async ( req , res )  => {
             message :  error   
         });    
     }
-
-    
 }
+
+
+
 
 module.exports = { validateRutExist , validateEmailExist , createUser , VerifyMail } ;

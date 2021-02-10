@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 const { validateRutExist, validateEmailExist, createUser, VerifyMail }  = require('../controllers/UsersController') ;
 const { GetSpecialtyData }  = require('../controllers/SpecialtyController') ;
 
-const { home , authorize , validToken  }  = require('../controllers/LoginController') ;
+const { home , authorize , validToken , RecoveryPassword, ValidTokenMail, ChangePassword }  = require('../controllers/LoginController') ;
 const { AddItemBudget , DeleteItemBudget  ,GetItemsBudget , GetItemsTratamientsByUser, CreateBudgetByUser , GetItemsBudgetFull, GetBudgetsFull ,UpdateStateItem}  = require('../controllers/BudgetController') ;
 
 const { addDocument, getDocuments, DestroyDocument }  = require('../controllers/ManagerDocumentController') ;
@@ -44,9 +44,11 @@ router.use( multer({storage}).single('fileDicom') ) ;
 
 //LoginController
 router.get( '/' ,  home ) ;
-router.post( '/login/authorize' ,  authorize ) ;
-router.post( '/login/validToken' ,  validToken ) ;
-
+router.post( '/login/authorize'       ,  authorize ) ;
+router.post( '/login/validToken'      ,  validToken ) ;
+router.post( '/login/recoverypass'    ,  RecoveryPassword ) ;
+router.post( '/login/validTokenEmail' ,  ValidTokenMail ) ;
+router.post( '/login/ChangePassword'  ,  ChangePassword ) ;
 
 //UsersController
 router.post( '/user/ValidateRutExist'   ,  validateRutExist ) ;

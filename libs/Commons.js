@@ -1,5 +1,5 @@
-const RuteAppMydent = `http://localhost:3000` ;
-//const RuteAppMydent = `https://safe-river-95287.herokuapp.com` ;
+//const RuteAppMydent = `http://localhost:3000` ;
+const RuteAppMydent = `https://safe-river-95287.herokuapp.com` ;
 
 const generateString =  stringlength  => {
 	const chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz" ;
